@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum WalletType {
+  CASH
+  BANK
+  E_MONEY
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+enum ScheduledTransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id                              Int                         @id @default(autoincrement())
+  name                            String
+  email                           String                      @unique
+  password                        String
+  avatarUrl                       String?
+  
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  wallets                         Wallet[]
+  categories                      Category[]
+  // notifications                  Notification[]
+}
+
+model Wallet {
+  id                              Int                         @id @default(autoincrement())
+  type                            WalletType
+  name                            String
+  color                           String?
+  
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  userId                          Int
+  
+  user                            User                        @relation(fields: [userId], references: [id])
+  outgoingTransactions            Transaction[]               @relation("TransactionSourceWallet")
+  incomingTransactions            Transaction[]               @relation("TransactionDestinationWallet")
+
+  outgoingScheduledTransactions   ScheduledTransaction[]      @relation("ScheduledTransactionSourceWallet")
+  incomingScheduledTransactions   ScheduledTransaction[]      @relation("ScheduledTransactionDestinationWallet")
+
+  @@index([userId])
+}
+
+model Category {
+  id                              Int                         @id @default(autoincrement())
+  name                            String
+  description                     String?
+  color                           String?
+  
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  userId                          Int
+  
+  user                            User                        @relation(fields: [userId], references: [id])
+  transactions                    Transaction[]
+  scheduledTransactions           ScheduledTransaction[]
+  budgets                         Budget[]
+
+  @@unique([userId, name])
+}
+
+model Transaction {
+  id                              Int                         @id @default(autoincrement())
+  type                            TransactionType
+  amount                          Decimal                     @db.Decimal(15, 2)
+  description                     String?
+  
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  categoryId                      Int?
+  savingId                        Int?
+  sourceWalletId                  Int
+  destinationWalletId             Int?
+  
+  category                        Category?                   @relation(fields: [categoryId], references: [id])
+  saving                          Saving?                     @relation(fields: [savingId], references: [id])
+  sourceWallet                    Wallet                      @relation("TransactionSourceWallet", fields: [sourceWalletId], references: [id])
+  destinationWallet               Wallet?                     @relation("TransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+
+  @@index([createdAt])
+  @@index([categoryId])
+  @@index([sourceWalletId])
+}
+
+model ScheduledTransaction {
+  id                              Int                         @id @default(autoincrement())
+  type                            TransactionType
+  amount                          Decimal                     @db.Decimal(15, 2)
+  description                     String?
+  status                          ScheduledTransactionStatus  @default(PENDING)
+
+  due                             DateTime
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  categoryId                      Int?
+  savingId                        Int?
+  sourceWalletId                  Int
+  destinationWalletId             Int?
+
+  category                        Category?                   @relation(fields: [categoryId], references: [id])
+  saving                          Saving?                     @relation(fields: [savingId], references: [id])
+  sourceWallet                    Wallet                      @relation("ScheduledTransactionSourceWallet", fields: [sourceWalletId], references: [id])
+  destinationWallet               Wallet?                     @relation("ScheduledTransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+}
+
+model Budget {
+  id                              Int                         @id @default(autoincrement())
+  name                            String
+  description                     String?
+  limitAmount                     Decimal                     @db.Decimal(15, 2)
+  
+  startDate                       DateTime
+  endDate                         DateTime
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  categoryId                      Int
+
+  category                        Category                    @relation(fields: [categoryId], references: [id])
+}
+
+model Saving {
+  id                              Int                         @id @default(autoincrement())
+  name                            String
+  description                     String?
+  targetAmount                    Decimal                     @db.Decimal(15, 2)
+  
+  deadline                        DateTime?
+  createdAt                       DateTime                    @default(now())
+  updatedAt                       DateTime                    @updatedAt
+  deletedAt                       DateTime?
+
+  transactions                    Transaction[]
+  scheduledTransactions           ScheduledTransaction[]
+}
+
+// model Notification {
+//   id                    Int                     @id @default(autoincrement())
+//   User                  String
+//   category              String                  @unique
+//   desc                  String?
+//   amount                Int
+//   
+//   createdAt DateTime @default(now())
+// 
+//   userId                Int
+// 
+//   user                  User                    @relation(fields: [userId], references: [id])
+// }
