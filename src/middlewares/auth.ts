@@ -6,16 +6,14 @@ const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.token;
 
-  if (!authHeader) {
+  if (!token) {
     return res.status(401).json({
-      error: "Unauthorized",
+      error: "No token provided",
     });
   }
-
-  const token = authHeader.split(" ")[1];
-
+  
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET || "secret") as { userId: number };
     (req as any).userId = payload.userId;
