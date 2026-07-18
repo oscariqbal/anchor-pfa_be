@@ -7,10 +7,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../docs/ERD.svg"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 
 enum WalletType {
   CASH
@@ -18,7 +24,32 @@ enum WalletType {
   E_MONEY
 }
 
+enum Color {
+  BLACK
+  WHITE
+  RED
+  ORANGE
+  YELLOW
+  SPRING_GREEN
+  GREEN
+  TURQUOISE
+  CYAN
+  OCEAN
+  BLUE
+  VIOLET
+  MAGENTA
+  RASPBERRY
+}
+
 enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+  SAVING_ALLOCATE
+  SAVING_RELEASE
+}
+
+enum ScheduledTransactionType {
   INCOME
   EXPENSE
   TRANSFER
@@ -31,82 +62,86 @@ enum ScheduledTransactionStatus {
 }
 
 model User {
-  id                              Int                         @id @default(autoincrement())
-  name                            String
-  email                           String                      @unique
-  password                        String
-  avatarUrl                       String?
-  
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String  @unique
+  password  String
+  avatarUrl String?
 
-  wallets                         Wallet[]
-  categories                      Category[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  wallets    Wallet[]
+  categories Category[]
+  savings    Saving[]
   // notifications                  Notification[]
 }
 
 model Wallet {
-  id                              Int                         @id @default(autoincrement())
-  type                            WalletType
-  name                            String
-  color                           String?
-  
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id          Int        @id @default(autoincrement())
+  type        WalletType
+  name        String
+  description String?
+  color       Color
 
-  userId                          Int
-  
-  user                            User                        @relation(fields: [userId], references: [id])
-  outgoingTransactions            Transaction[]               @relation("TransactionSourceWallet")
-  incomingTransactions            Transaction[]               @relation("TransactionDestinationWallet")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  outgoingScheduledTransactions   ScheduledTransaction[]      @relation("ScheduledTransactionSourceWallet")
-  incomingScheduledTransactions   ScheduledTransaction[]      @relation("ScheduledTransactionDestinationWallet")
+  userId Int
+
+  user                 User          @relation(fields: [userId], references: [id])
+  outgoingTransactions Transaction[] @relation("TransactionSourceWallet")
+  incomingTransactions Transaction[] @relation("TransactionDestinationWallet")
+
+  outgoingScheduledTransactions ScheduledTransaction[] @relation("ScheduledTransactionSourceWallet")
+  incomingScheduledTransactions ScheduledTransaction[] @relation("ScheduledTransactionDestinationWallet")
 
   @@index([userId])
 }
 
 model Category {
-  id                              Int                         @id @default(autoincrement())
-  name                            String
-  description                     String?
-  color                           String?
-  
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  color       Color
 
-  userId                          Int
-  
-  user                            User                        @relation(fields: [userId], references: [id])
-  transactions                    Transaction[]
-  scheduledTransactions           ScheduledTransaction[]
-  budgets                         Budget[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  userId Int
+
+  user                  User                   @relation(fields: [userId], references: [id])
+  transactions          Transaction[]
+  scheduledTransactions ScheduledTransaction[]
+  budgets               Budget[]
 
   @@unique([userId, name])
 }
 
 model Transaction {
-  id                              Int                         @id @default(autoincrement())
-  type                            TransactionType
-  amount                          Decimal                     @db.Decimal(15, 2)
-  description                     String?
-  
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id          Int             @id @default(autoincrement())
+  type        TransactionType
+  amount      Decimal         @db.Decimal(15, 2)
+  description String?
 
-  categoryId                      Int?
-  savingId                        Int?
-  sourceWalletId                  Int
-  destinationWalletId             Int?
-  
-  category                        Category?                   @relation(fields: [categoryId], references: [id])
-  saving                          Saving?                     @relation(fields: [savingId], references: [id])
-  sourceWallet                    Wallet                      @relation("TransactionSourceWallet", fields: [sourceWalletId], references: [id])
-  destinationWallet               Wallet?                     @relation("TransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  categoryId             Int?
+  savingId               Int?
+  sourceWalletId         Int?
+  destinationWalletId    Int?
+  scheduledTransactionId Int?
+
+  category             Category?             @relation(fields: [categoryId], references: [id])
+  saving               Saving?               @relation(fields: [savingId], references: [id])
+  sourceWallet         Wallet?               @relation("TransactionSourceWallet", fields: [sourceWalletId], references: [id])
+  destinationWallet    Wallet?               @relation("TransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+  scheduledTransaction ScheduledTransaction? @relation(fields: [scheduledTransactionId], references: [id])
 
   @@index([createdAt])
   @@index([categoryId])
@@ -114,58 +149,62 @@ model Transaction {
 }
 
 model ScheduledTransaction {
-  id                              Int                         @id @default(autoincrement())
-  type                            TransactionType
-  amount                          Decimal                     @db.Decimal(15, 2)
-  description                     String?
-  status                          ScheduledTransactionStatus  @default(PENDING)
+  id          Int                        @id @default(autoincrement())
+  type        ScheduledTransactionType
+  amount      Decimal                    @db.Decimal(15, 2)
+  description String?
+  status      ScheduledTransactionStatus @default(PENDING)
 
-  due                             DateTime
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  scheduledFor DateTime
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
 
-  categoryId                      Int?
-  savingId                        Int?
-  sourceWalletId                  Int
-  destinationWalletId             Int?
+  categoryId          Int?
+  sourceWalletId      Int?
+  destinationWalletId Int?
+  savingId            Int?
 
-  category                        Category?                   @relation(fields: [categoryId], references: [id])
-  saving                          Saving?                     @relation(fields: [savingId], references: [id])
-  sourceWallet                    Wallet                      @relation("ScheduledTransactionSourceWallet", fields: [sourceWalletId], references: [id])
-  destinationWallet               Wallet?                     @relation("ScheduledTransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+  saving            Saving?       @relation(fields: [savingId], references: [id])
+  category          Category?     @relation(fields: [categoryId], references: [id])
+  sourceWallet      Wallet?       @relation("ScheduledTransactionSourceWallet", fields: [sourceWalletId], references: [id])
+  destinationWallet Wallet?       @relation("ScheduledTransactionDestinationWallet", fields: [destinationWalletId], references: [id])
+  transactions      Transaction[]
 }
 
 model Budget {
-  id                              Int                         @id @default(autoincrement())
-  name                            String
-  description                     String?
-  limitAmount                     Decimal                     @db.Decimal(15, 2)
-  
-  startDate                       DateTime
-  endDate                         DateTime
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  limitAmount Decimal @db.Decimal(15, 2)
 
-  categoryId                      Int
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  category                        Category                    @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  category Category @relation(fields: [categoryId], references: [id])
 }
 
 model Saving {
-  id                              Int                         @id @default(autoincrement())
-  name                            String
-  description                     String?
-  targetAmount                    Decimal                     @db.Decimal(15, 2)
-  
-  deadline                        DateTime?
-  createdAt                       DateTime                    @default(now())
-  updatedAt                       DateTime                    @updatedAt
-  deletedAt                       DateTime?
+  id           Int     @id @default(autoincrement())
+  name         String
+  description  String?
+  targetAmount Decimal @db.Decimal(15, 2)
 
-  transactions                    Transaction[]
-  scheduledTransactions           ScheduledTransaction[]
+  deadline  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  userId Int
+
+  user                  User                   @relation(fields: [userId], references: [id])
+  transactions          Transaction[]
+  scheduledTransactions ScheduledTransaction[]
 }
 
 // model Notification {

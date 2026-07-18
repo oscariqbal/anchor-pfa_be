@@ -10,7 +10,7 @@ export async function profile(req: Request, res: Response) {
         id: userId,
       },
     });
-    
+
     if (!user) {
       return res.status(404).json({
         error: {
