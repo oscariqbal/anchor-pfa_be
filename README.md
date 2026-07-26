@@ -1,23 +1,23 @@
 # Anchor
 
-Anchor adalah aplikasi pencatatan dan perencanaan keuangan pribadi yang dirancang untuk membantu pengguna dalam mencatat dan merencanakan keuangan mereka dengan mudah, dimana saja dan kapan saja.
+## Anchor is a personal finance tracking and planning app designed to help users easily track and plan their finances anytime and anywhere
 
-## Fitur Utama
-1. Autentikasi
-Melakukan proses autentikasi kepada pengguna untuk memastikan pengguna mengakses data yang sesuai dan memastikan data diakses oleh pengguna yang sesuai.
-2. Pencatatan Transaksi
-Pengguna dapat melakukan pencatatan transaksi dan memantau seluruh catatan transaksi dalam periode tertentu
-3. Perencanaan Transaksi
-Pengguna dapat melakukan perencanaan pencatatan transaksi dan memantau seluruh perencanaan transaksi
-4. Perencanaan Anggaran
-Pengguna dapat memantau pengeluaran berdasarkan kategori tertentu yang telah mereka buat
-5. Perencanaan Tabungan
-Pengguna dapat melakukan kegiatan menabung dan memantau kemajuan rencana tabungan mereka
-6. Manajemen Dompet
-Pengguna dapat menambahkan dompet tertentu berdasarkan tipe dompet (bank, cash, e-money), contohnya “BCA”, “Dompet Merah”, “Dompet Hitam”, “DANA”, dll untuk membantu mengelompokkan lokasi dana yang dimiliki
-7. Manajemen Kategori
-Pengguna dapat menambahkan kategori seperti “Makan”, “Kos”, “Gym”, dll untuk membantu mengelompokkan dan memantau transaksi yang dilakukan
-8. Melihat dashboard
-Pengguna dapat melihat ringkasan kondisi keuangan terkini
-9. Melihat analisis
-Pengguna dapat melihat hasil analisis dari kegiatan transaksi, anggaran dan tabungan yang dapat membantu dalam mengambil keputusan finansial mereka
+## Main Feature
+1. Authentication
+Ensure that users access the appropriate data and that data is accessed by the appropriate users.
+2. Transaction Record
+Record user's transactions and view all transaction over a specific period
+3. Transaction Planner
+Plan user's transactions and view all planned transaction
+4. Budget Tracker
+Track and monitor user's expense based on a spesific category 
+5. Saving Planner 
+Create, deposit, and monitor user's saving plan
+6. Wallet
+Classify user's money position based on wallet type exist (bank, cash, e-money), for example "BCA" for bank, "Black Wallet" for cahs, and "DANA" for e-money
+7. Category
+Classify user's transaction based on category, for example "Food", "Electric Bill", "Gym", etc
+8. Dashboard
+View current user's financial report
+9. Analytics
+View analytic report on user's transaction, saving plan, and budget plan
