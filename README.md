@@ -2,7 +2,7 @@
 
 Anchor adalah aplikasi pencatatan dan perencanaan keuangan pribadi yang dirancang untuk membantu pengguna dalam mencatat dan merencanakan keuangan mereka dengan mudah, dimana saja dan kapan saja.
 
-Fitur Utama
+## Fitur Utama
 1. Autentikasi
 Melakukan proses autentikasi kepada pengguna untuk memastikan pengguna mengakses data yang sesuai dan memastikan data diakses oleh pengguna yang sesuai.
 2. Pencatatan Transaksi
