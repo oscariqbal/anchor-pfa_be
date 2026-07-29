@@ -21,3 +21,13 @@ Classify user's transaction based on category, for example "Food", "Electric Bil
 View current user's financial report
 9. Analytics
 View analytic report on user's transaction, saving plan, and budget plan
+
+See other details about this app in:
+[Main Feature Details](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/MAIN_FEATURE_DETAILS.md)
+[Business Rule]()
+[Decision Log]()
+[Wireframe]()
+[API Design]()
+[Architecture]()
+[Calculation Spec]()
+[Future Improvement]()
