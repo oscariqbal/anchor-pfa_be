@@ -2,7 +2,8 @@
 
 ## Main Feature Details
 1. Authentication
-Ensure that users access the appropriate data and that data is accessed by the appropriate users.
+
+    Ensure that users access the appropriate data and that data is accessed by the appropriate users.
 
     - Create account
     - View account details
@@ -10,7 +11,8 @@ Ensure that users access the appropriate data and that data is accessed by the a
     - Delete account
 
 2. Transaction Record
-Record user's transactions and view all transaction over a specific period
+
+    Record user's transactions and view all transaction over a specific period
 
     - Record income
     - Edit income record
@@ -33,7 +35,8 @@ Record user's transactions and view all transaction over a specific period
     - View AI powered advice on transaction
 
 3. Transaction Planner
-Plan user's transactions and view all planned transaction
+
+    Plan user's transactions and view all planned transaction
 
     - Plan income
     - Edit income plan
@@ -50,7 +53,8 @@ Plan user's transactions and view all planned transaction
     - Cancel plan
 
 4. Wallet
-Classify user's money position based on wallet type exist (bank, cash, e-money), for example "BCA" for bank, "Black Wallet" for cahs, and "DANA" for e-money
+
+    Classify user's money position based on wallet type exist (bank, cash, e-money), for example "BCA" for bank, "Black Wallet" for cahs, and "DANA" for e-money
 
     - Create wallet
     - Edit wallet
@@ -58,7 +62,8 @@ Classify user's money position based on wallet type exist (bank, cash, e-money),
     - View wallet list
 
 5. Category
-Classify user's transaction based on category, for example "Food", "Electric Bill", "Gym", etc
+
+    Classify user's transaction based on category, for example "Food", "Electric Bill", "Gym", etc
 
     - Create category
     - Edit category
@@ -66,7 +71,8 @@ Classify user's transaction based on category, for example "Food", "Electric Bil
     - View category list
 
 6. Budget Tracker
-Track and monitor user's expense based on a spesific category
+
+    Track and monitor user's expense based on a spesific category
 
     - Plan budget
     - Track budget
@@ -78,7 +84,8 @@ Track and monitor user's expense based on a spesific category
     - View AI powered advice on budget plan
 
 7. Saving Planner
-Create, deposit, and monitor user's saving plan
+
+    Create, deposit, and monitor user's saving plan
 
     - Plan saving
     - View saving progress
@@ -90,7 +97,8 @@ Create, deposit, and monitor user's saving plan
     - View AI powered advice on saving plan
 
 8. Dashboard
-View current user's financial report
+
+    View current user's financial report
 
     - View current actual balance
     - View current available balance

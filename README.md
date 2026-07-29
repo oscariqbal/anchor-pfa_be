@@ -4,30 +4,49 @@ Anchor is a personal finance tracking and planning app designed to help users ea
 
 ## Main Feature
 1. Authentication
-Ensure that users access the appropriate data and that data is accessed by the appropriate users.
-2. Transaction Record
-Record user's transactions and view all transaction over a specific period
-3. Transaction Planner
-Plan user's transactions and view all planned transaction
-4. Budget Tracker
-Track and monitor user's expense based on a spesific category 
-5. Saving Planner 
-Create, deposit, and monitor user's saving plan
-6. Wallet
-Classify user's money position based on wallet type exist (bank, cash, e-money), for example "BCA" for bank, "Black Wallet" for cahs, and "DANA" for e-money
-7. Category
-Classify user's transaction based on category, for example "Food", "Electric Bill", "Gym", etc
-8. Dashboard
-View current user's financial report
-9. Analytics
-View analytic report on user's transaction, saving plan, and budget plan
 
-See other details about this app in:  
-[Main Feature Details](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/MAIN_FEATURE_DETAILS.md)  
-Business Rule  
-Decision Log  
-Wireframe  
-API Design  
-Architecture  
-Calculation Spec  
-Future Improvement  
+    Ensure that users access the appropriate data and that data is accessed by the appropriate users.
+
+2. Transaction Record
+
+    Record user's transactions and view all transaction over a specific period
+
+3. Transaction Planner
+
+    Plan user's transactions and view all planned transaction
+
+4. Budget Tracker
+
+    Track and monitor user's expense based on a spesific category 
+
+5. Saving Planner
+
+    Create, deposit, and monitor user's saving plan
+
+6. Wallet
+
+    Classify user's money position based on wallet type exist (bank, cash, e-money), for example "BCA" for bank, "Black Wallet" for cahs, and "DANA" for e-money
+
+7. Category
+
+    Classify user's transaction based on category, for example "Food", "Electric Bill", "Gym", etc
+
+8. Dashboard
+
+    View current user's financial report
+
+9. Analytics
+
+    View analytic report on user's transaction, saving plan, and budget plan
+
+
+See other details about this app in:
+
+- [Main Feature Details](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/MAIN_FEATURE_DETAILS.md)
+- Business Rule
+- Decision Log
+- Wireframe
+- API Design
+- Architecture
+- Calculation Spec
+- Future Improvement
