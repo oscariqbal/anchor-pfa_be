@@ -30,7 +30,7 @@ Anchor is a personal finance tracking and planning app designed to help users ea
 See other details about this app in:
 
 - [Main Feature Details](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/MAIN_FEATURE_DETAILS.md)
-- Business Rule
+- [Business Rule](https://docs.google.com/document/d/1UbdWtvERM66J_VG8C4bLZNawPF8oelXUw6oStyeNyXY/edit?usp=sharing)
 - Decision Log
 - Wireframe
 - API Design
