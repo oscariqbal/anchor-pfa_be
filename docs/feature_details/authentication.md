@@ -2,22 +2,25 @@
 
 ### Authentication
 
-#### Create account  
-    Create user account
+#### Create account
 
-    1. **Input Spesification**  
-    | Field | Type | Properties |
-    |-------|------|------------|
-    | name | string |Required |
-    | email | string | Required |
-    | password | string | required, min 8 |
+Create user account
 
-    2. **Business Rule**  
+1. **Input Spesification**
 
-    
-    3. **System Process**  
-    | Precondition | Process | Postcondition |
-    |--------------|---------|---------------|
+| Field | Type | Properties |
+|-------|------|------------|
+| name | string |Required |
+| email | string | Required |
+| password | string | required, min 8 |
+
+2. **Business Rule**  
+
+
+3. **System Process**
+
+| Precondition | Process | Postcondition |
+|--------------|---------|---------------|
 
 #### View account
 #### Edit account
