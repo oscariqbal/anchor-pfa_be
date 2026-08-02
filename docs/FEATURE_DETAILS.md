@@ -1,10 +1,10 @@
 [Back](https://github.com/oscariqbal/anchor-pfa_be/tree/main)
 
+---
+
 ## Feature Details
 
 Detail information per feature includes use cases, input and validation, business rules, and system process.
-
----
 
 1. [Authentication](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/feature_details/authentication.md)
 2. [Transaction Record](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/feature_details/authentication.md)

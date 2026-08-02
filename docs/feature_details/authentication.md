@@ -1,8 +1,8 @@
 [Back](https://github.com/oscariqbal/anchor-pfa_be/tree/main)
 
-### Authentication
+# Authentication
 
-#### Create account
+## Create account
 
 Create user account
 
@@ -10,8 +10,8 @@ Create user account
 
 | Field | Type | Properties |
 |-------|------|------------|
-| name | string |Required |
-| email | string | Required |
+| name | string | required |
+| email | string | required |
 | password | string | required, min 8 |
 
 2. **Business Rule**  
@@ -22,22 +22,6 @@ Create user account
 | Precondition | Process | Postcondition |
 |--------------|---------|---------------|
 
-#### View account
-#### Edit account
-#### Remove account
-
-    | Feature | Description | Input | Precondition | Process | Output |
-    |---------|-------------|-------|--------------|---------|--------|
-    | Create account | Create user account | • Name<br>• Email<br>• Password | • Name is required<br>• Email is required<br>• Email must be unique<br>• Password is required | • Validate data<br>• Hash password<br>• Save account | • Account successfully created |
-    | Read account information |
-    | Edit account information |
-    | Remove account |
-
-    Feature
-    Description
-    Input
-    Validasi input
-    Business Rule
-    System Precondition
-    Process
-    System Postcondition
+## View account
+## Edit account
+## Remove account

@@ -2,8 +2,6 @@
 
 Anchor is a personal finance tracking and planning app designed to help users easily track and plan their finances anytime and anywhere
 
----
-
 ## Main Feature
 1. **Authentication**  
     Ensure that users access the appropriate data and that data is accessed by the appropriate users.
