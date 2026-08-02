@@ -4,7 +4,7 @@
 
 # Authentication
 
-## • Create account
+## 1. Create account
 
 ### **Input Spesification**
 
@@ -32,7 +32,7 @@
 
 - Account created
 
-## • View account
+## 2. View account
 
 ### **Input Spesification**
 
@@ -60,7 +60,7 @@
 
 - Account created
 
-## • Edit account
+## 3. Edit account
 
 ### **Input Spesification**
 
@@ -88,7 +88,7 @@
 
 - Account created
 
-## • Remove account
+## 4. Remove account
 
 ### **Input Spesification**
 
