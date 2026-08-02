@@ -7,7 +7,7 @@
 
     | Details | Objective | Input | Precondition | Process | Output |
     |---------|-----------|-------|--------------|---------|--------|
-    | Create account | 
+    | Create account | Create user account | • Name<br>• Email<br>• Password | • Name is required<br>• Email is required<br>• Email must be unique<br>• Password is required | • Validate data<br>• Hash password<br>• Save account | • Account successfully created |
     | Read account information |
     | Edit account information |
     | Remove account |
