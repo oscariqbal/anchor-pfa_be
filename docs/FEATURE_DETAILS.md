@@ -2,7 +2,7 @@
 
 ---
 
-## Feature Details
+# Feature Details
 
 Detail information per feature includes use cases, input and validation, business rules, and system process.
 

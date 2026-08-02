@@ -1,4 +1,6 @@
-[Back](https://github.com/oscariqbal/anchor-pfa_be/tree/main)
+[Back](https://github.com/oscariqbal/anchor-pfa_be/blob/main/docs/FEATURE_DETAILS.md)
+
+---
 
 # Authentication
 
@@ -6,7 +8,7 @@
 
 Create user account
 
-1. **Input Spesification**
+### **Input Spesification**
 
 | Field | Type | Properties |
 |-------|------|------------|
@@ -14,10 +16,10 @@ Create user account
 | email | string | required |
 | password | string | required, min 8 |
 
-2. **Business Rule**  
+### **Business Rule**  
 
 
-3. **System Process**
+### **System Process**
 
 | Precondition | Process | Postcondition |
 |--------------|---------|---------------|
