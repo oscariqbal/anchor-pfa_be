@@ -8,25 +8,25 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties |
-|-------|------|------------|
-| name | string | required |
-| email | string | required, unique |
-| password | string | required, min 8 |
+| Field | Type | Properties | Source | Description |
+|-------|------|------------|--------|-------------|
+| name | string | Required | User | User's name |
+| email | string | Required | User | User's email |
+| password | string | Required | User | User's password |
 
 ### **Business Rule**  
 
--
+- none
 
 ### **System Precondition**
 
--
+- none
 
 ### **System Process**
 
-1. Validate data
-2. Hash password
-3. Save account
+- Validate data
+- Hash password
+- Create new account data
 
 ### **System Postcondition**
 
@@ -36,67 +36,69 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties |
-|-------|------|------------|
-| name | string | required |
-| email | string | required, unique |
-| password | string | required, min 8 |
+| Field | Type | Properties | Source | Description |
+|-------|------|------------|--------|-------------|
+| none | none | none | none | none |
 
 ### **Business Rule**  
 
--
+- none
 
 ### **System Precondition**
 
--
+- User must be active
 
 ### **System Process**
 
-1. Validate data
-2. Hash password
-3. Save account
+- Identificate user
+- Get account data from database
+- Send account data
 
 ### **System Postcondition**
 
-- Account created
+- Account information displayed
 
 ## 3. Edit account
 
 ### **Input Spesification**
 
-| Field | Type | Properties |
-|-------|------|------------|
-| name | string | required |
-| email | string | required, unique |
-| password | string | required, min 8 |
+| Field | Type | Properties | Source | Description |
+|-------|------|------------|--------|-------------|
+| name | string | optional | User | User's name |
+| email | string | optional | User | User's email |
+| password | string | optional | User | User's password |
 
 ### **Business Rule**  
 
--
+- If name is changed, name must be filled
+- If email is changed, email must be filled
+- If password is changed, password must be filled
+- If password is changed, new password must be different from old password
 
 ### **System Precondition**
 
--
+- User must be active
 
 ### **System Process**
 
-1. Validate data
-2. Hash password
-3. Save account
+- Identificate user
+- Get user's account data
+- (user input new data)
+- Validate changed account data
+- Save new account data
+- Send user's new account data
 
 ### **System Postcondition**
 
-- Account created
+- User's account updated
 
 ## 4. Remove account
 
 ### **Input Spesification**
 
-| Field | Type | Properties |
-|-------|------|------------|
-| name | string | required |
-| email | string | required, unique |
-| password | string | required, min 8 |
+| Field | Type | Properties | Source | Description |
+|-------|------|------------|--------|-------------|
+| none | none | none | none | none |
 
 ### **Business Rule**  
 
@@ -104,14 +106,14 @@
 
 ### **System Precondition**
 
--
+- User must be active
 
 ### **System Process**
 
-1. Validate data
-2. Hash password
-3. Save account
+- Identificate user
+- Delete account
 
 ### **System Postcondition**
 
-- Account created
+- Account deleted
+- User's login session removed
