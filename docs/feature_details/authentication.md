@@ -8,11 +8,11 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties | Source | Description |
-|-------|------|------------|--------|-------------|
-| name | string | Required | User | User's name |
-| email | string | Required | User | User's email |
-| password | string | Required | User | User's password |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| name | string | Required | User's name |
+| email | string | Required | User's email |
+| password | string | Required | User's password |
 
 ### **Business Rule**  
 
@@ -36,9 +36,9 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties | Source | Description |
-|-------|------|------------|--------|-------------|
-| none | none | none | none | none |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| userId | number | required | User's id |
 
 ### **Business Rule**  
 
@@ -62,11 +62,12 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties | Source | Description |
-|-------|------|------------|--------|-------------|
-| name | string | optional | User | User's name |
-| email | string | optional | User | User's email |
-| password | string | optional | User | User's password |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| userId | number | required | User's id |
+| name | string | optional | User's name |
+| email | string | optional | User's email |
+| password | string | optional | User's password |
 
 ### **Business Rule**  
 
@@ -96,9 +97,9 @@
 
 ### **Input Spesification**
 
-| Field | Type | Properties | Source | Description |
-|-------|------|------------|--------|-------------|
-| none | none | none | none | none |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| userId | number | required | User's id |
 
 ### **Business Rule**  
 

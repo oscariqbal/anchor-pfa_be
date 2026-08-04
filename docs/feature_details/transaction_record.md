@@ -4,20 +4,26 @@
 
 # Transaction Record
 
+Transaction record define user's financial decision that users want to record. Build pretty straighforward with no strict rules to provide flexibility that align with the app main purpose.
+
+Decisions made:
+- All transaction type being one use case because there are not many different system process 
+- Edit transaction type are possible because there are not many business rule changed. Although editing transaction type may affect another feature, the decision are all on user hand. User must understand the consequences before committing change.
+- The same reason also applied on Delete transaction
+
 ## 1. Record transaction
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| type | enum | required | Transaction's type |
+| type | enum | required | Transaction's type (INCOME, EXPENSE, TRANSFER, SAVING_ALLOCATE, SAVING_RELEASE) |
 | amount | number | required | Amount of money |
-| description | string | optional | Transaction's note |
+| note | string | required | Transaction's note |
 | categoryId | number | optional | Transaction's category |
 | sourceWalletId | number | optional | Transaction's source wallet |
 | destinationWalletId | number | optional | Transaction's destination wallet |
 | savingId | number | optional | Transaction's destination saving plan |
-| plannedTransactionId | number | optional | Transaction's realization from transaction planner |
 
 ### **Business Rule**  
 
@@ -38,13 +44,14 @@
 - sourceWalletId must provided in wallet
 - destinationWalletId must provided in wallet
 
-- amount must be positive
+- amount is required and must be positive
+- note is required
 - categoryId must provided in category
-- If transaction records doesn't generated from transaction planner, plannedTransactionId is null
 
 ### **System Precondition**
 
 - User must be active
+- There must be at least one wallet belongs to user
 
 ### **System Process**
 
@@ -54,7 +61,7 @@
 
 ### **System Postcondition**
 
-- Transaction's created
+- Transaction records created
 
 ## 2. Edit transaction records
 
@@ -63,9 +70,9 @@
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
 | transactionId | number | required | Transaction's id |
-| type | enum | optional | Transaction's type |
+| type | enum | optional | Transaction's type (INCOME, EXPENSE, TRANSFER, SAVING_ALLOCATE, SAVING_RELEASE) |
 | amount | number | optional | Amount of money |
-| description | string | optional | Transaction's note |
+| note | string | optional | Transaction's note |
 | categoryId | number | optional | Transaction's category |
 | sourceWalletId | number | optional | Transaction's source wallet |
 | destinationWalletId | number | optional | Transaction's destination wallet |
@@ -74,7 +81,6 @@
 ### **Business Rule**  
 
 - Transaction records is the main source of calculation and acting like a core to another features. Updating the transaction record may affect some other features. User must be aware of the consequences before committing to edit the transaction records
-- If transaction records generated from transaction planner, transaction records cannot be changed
 
 - If type changed to INCOME / SAVING_RELEASE, sourceWalletId is null
 - If type changed to INCOME / SAVING_RELEASE, destinationWallet is required
@@ -94,12 +100,13 @@
 - If sourceWalletId is changed, sourceWalletId must provided in wallet
 - If destinationWalletId is changed, destinationWalletId must provided in wallet
 
-- If amount is changed, amount must be positive
+- If amount is changed, amount is required and must be positive
 - If categoryId is changed, categoryId must provided in category
 
 ### **System Precondition**
 
 - User must be active
+- There must be at least one transaction
 
 ### **System Process**
 
@@ -115,22 +122,22 @@
 
 - Transaction records updated
 
-## 3. Delete transaction
+## 3. Delete transaction records
 
 ### **Input Spesification**
 
-| Field | Properties |
-|-------|------------|
-| transferId | required |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| transactionId | number | required | Transaction's id |
 
 ### **Business Rule**  
 
 - Transaction records is the main source of calculation and acting like a core to another features. Deleting the transaction record may affect some other features. User must be aware of the consequences before committing to delete the transaction records
-- If transaction records generated from transaction planner, transaction plan's type changed to CANCELLED
 
 ### **System Precondition**
 
 - User must be active
+- There must be at least one transaction
 
 ### **System Process**
 
@@ -142,15 +149,14 @@
 ### **System Postcondition**
 
 - Transaction records deleted
-- If transaction records generated from transaction plan, change transaction plan's status in transaction plan to CANCELLED
 
-## 4. View transfer record's detail
+## 4. View transfer records detail
 
 ### **Input Spesification**
 
-| Field | Properties |
-|-------|------------|
-| transferId | required |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| transactionId | number | required | Transaction's id |
 
 ### **Business Rule**  
 
@@ -159,25 +165,25 @@
 ### **System Precondition**
 
 - User must be active
-- There must be at least one transferId
+- There must be at least one transaction
 
 ### **System Process**
 
 - Identificate user
-- Get all data from one transfer record
-- Send transfer record's data
+- Get all data from one transaction record
+- Send transaction record's data
 
 ### **System Postcondition**
 
-- Transfer record's detailed data displayed
+- Transaction record's detailed data displayed
 
-## 5. See transfer record's list
+## 5. See transaction records list
 
 ### **Input Spesification**
 
-| Field | Properties |
-|-------|------------|
-| transferId | required |
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| transactionId | number | required | Transaction's id |
 
 ### **Business Rule**  
 
@@ -186,14 +192,14 @@
 ### **System Precondition**
 
 - User must be active
-- There must be at least one transferId
+- There must be at least one transaction
 
 ### **System Process**
 
 - Identificate user
-- Get transfer record's data gradually
-- Send transfer record's data
+- Get transaction record's data gradually
+- Send transaction record's data
 
 ### **System Postcondition**
 
-- Transfer record's data list displayed
+- Transaction record's data list displayed
