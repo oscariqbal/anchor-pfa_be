@@ -27,6 +27,7 @@ Decisions made:
 
 ### **Business Rule**  
 
+- userId automatically collect from user session
 - color must be one of color list provided
 - archived automatically set to 0 (no)
 
@@ -58,7 +59,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Updating the wallet that already has transaction records or transaction plan may affect some transaction records and transaction plan. User must be aware of the consequences before committing to edit the wallet
+- Updating the wallet that already has transaction records or transaction plan may affect some of them. User must be aware of the consequences before committing to edit the wallet
 
 ### **System Precondition**
 
@@ -89,7 +90,8 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Deleting the wallet that already has transaction records or transaction plan may affect some transaction records and transaction plan. User must be aware of the consequences before committing to delete the wallet
+- Deleting the wallet that already has transaction records and/or transaction plan may affect some of them. User must be aware of the consequences before committing to delete the wallet
+- Delete on wallet will also delete the connected transaction records and/or transaction plan
 
 ### **System Precondition**
 
@@ -99,13 +101,15 @@ Decisions made:
 ### **System Process**
 
 - Identificate user
-- Get wallet records data
+- Get wallet data
 - (user confirm deletion)
-- Delete wallet records data
+- If the wallet have transaction records and/or transaction plan, delete them first
+- Delete wallet data
 
 ### **System Postcondition**
 
-- Wallet records deleted
+- Wallet deleted
+- If the wallet have transaction records and/or transaction plan, connected transaction records and/or transaction plan deleted
 
 ## 4. Archive wallet
 
@@ -137,7 +141,7 @@ Decisions made:
 
 - Wallet's archived set to 1
 
-## 4. Dearchive wallet
+## 5. Dearchive wallet
 
 ### **Input Spesification**
 

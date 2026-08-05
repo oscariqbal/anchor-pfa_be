@@ -7,23 +7,25 @@
 Category define user's transactions category and act as a tool to help users classify. 
 
 Decisions made:
-- 
+- Edit and delete category are allowed because we want to give as much flexibility as we can while respecting user's decision.
+- Edit and delete category that already have tied to some records or plans are allowed, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
+- Delete category that already have tied to some budget will trigger kind of hard confirmation: 'This category contains 6 budget data, 534 transaction records and 12 transaction plan. Destroying this category will permanently remove all budget and clearing transaction records and transaction plan data. Are you sure? Type DESTROY to confirm'
 
-## 1. Create wallet
+## 1. Create category
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| userId | number | required | Wallet's ownership | 
-| type | enum | required | Wallet's type (CASH, BANK, E_MONEY) |
-| name | string | required | Wallet's name |
-| description | string | optional | Wallet's description |
-| color | enum | required | Wallet's color |
-| archived | boolean | required | Wallet's status (active/archived) |
+| userId | number | required | Category's ownership |
+| name | string | required | Category's name |
+| type | enum | required | Category's type (INCOME, EXPENSE) |
+| description | string | optional | Category's description |
+| color | enum | required | Category's color |
 
 ### **Business Rule**  
 
+- userId automatically collect from user session
 - color must be one of color list provided
 
 ### **System Precondition**
@@ -33,83 +35,87 @@ Decisions made:
 ### **System Process**
 
 - Identificate user
-- Validate wallet data
-- Create new wallet data
+- Validate category data
+- Create new category data
 
 ### **System Postcondition**
 
-- Wallet created
+- Category created
 
-## 2. Edit wallet
+## 2. Edit category
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| walletId | number | required | Wallet's id |
-| type | enum | optional | Wallet's type (CASH, BANK, E_MONEY) |
-| name | string | optional | Wallet's name |
-| description | string | optional | Wallet's description |
-| color | enum | optional | Wallet's color |
+| categoryId | number | required | Category's id |
+| name | string | optional | Category's name |
+| type | enum | optional/immutable | Category's type (INCOME, EXPENSE) |
+| description | string | optional | Category's description |
+| color | enum | optional | Category's color |
 
 ### **Business Rule**  
 
-- Wallet acting as an identity to transaction records and transaction plan. Updating the wallet may affect some transaction records and transaction plan. User must be aware of the consequences before committing to edit the wallet
+- Updating the category that already has transaction records and/or transaction plan and/or budget may affect some of them. User must be aware of the consequences before committing to edit the category
+- Category's type cannot be change if there are already transaction records and/or transaction plan and/or budget connected to it. We aware that this may limit user's flexibility and became, strangely, contrary to our main purpose and principle. However, we did not find any common use case in editing category's type, so that by considering the disadvantage such as damaged data, we decide to prohibit change to category's type.
 
 ### **System Precondition**
 
 - User must be active
-- There must be at least one wallet
+- There must be at least one category
 
 ### **System Process**
 
 - Identificate user
-- Get wallet data
-- Send wallet data
+- Get category data
+- Send category data
 - (user input new data and confirm update)
-- Validate changed wallet data
-- Save wallet data
-- Send new wallet data
+- Validate changed category data
+- Save category data
+- Send new category data
 
 ### **System Postcondition**
 
-- Wallet updated
+- Category updated
 
-## 3. Delete wallet
+## 3. Delete category
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| walletId | number | required | Wallet's id |
+| categoryId | number | required | Category's id |
 
-### **Business Rule**  
+### **Business Rule**
 
-- Wallet acting as an identity to transaction records and transaction plan. Deleting the wallet that already has transaction records or transaction plan is prohibited. As a solution, there are "Archive" option to hide and block the wallet. User can also delete all the connected transaction before deleting the wallet
+- Deleting the category that already has transaction records and/or transaction plan and/or budget may affect some of them. User must be aware of the consequences before committing to delete the category
+- Delete on category will make connected transaction records and/or transaction plan category to NULL
+- Delete on category will also delete all the connected budgets
 
 ### **System Precondition**
 
 - User must be active
-- There must be at least one wallet
+- There must be at least one category
 
 ### **System Process**
 
 - Identificate user
-- Get wallet records data
+- Get category data
 - (user confirm deletion)
-- Delete wallet records data
+- If the category have connected budgets, delete them first
+- Delete category data
 
 ### **System Postcondition**
 
 - wWllet records deleted
 
-## 4. View wallet detail
+## 4. View category detail
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| walletId | number | required | Wallet's id |
+| categoryId | number | required | Category's id |
 
 ### **Business Rule**  
 
@@ -118,25 +124,25 @@ Decisions made:
 ### **System Precondition**
 
 - User must be active
-- There must be at least one wallet
+- There must be at least one category
 
 ### **System Process**
 
 - Identificate user
-- Get all data from one wallet
-- Send wallet data
+- Get all data from one category
+- Send category data
 
 ### **System Postcondition**
 
-- Wallet detailed data displayed
+- Category detailed data displayed
 
-## 5. See wallet list
+## 5. See category list
 
 ### **Input Spesification**
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| walletId | number | required | Wallet's id |
+| categoryId | number | required | Category's id |
 
 ### **Business Rule**  
 
@@ -145,14 +151,14 @@ Decisions made:
 ### **System Precondition**
 
 - User must be active
-- There must be at least one wallet
+- There must be at least one category
 
 ### **System Process**
 
 - Identificate user
-- Get wallet data gradually
-- Send wallet data
+- Get category data gradually
+- Send category data
 
 ### **System Postcondition**
 
-- Wallet data list displayed
+- Category data list displayed

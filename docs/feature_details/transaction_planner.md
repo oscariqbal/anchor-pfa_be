@@ -40,13 +40,16 @@ Decisions made:
 - If type is INCOME / EXPENSE / TRANSFER, savingId is null
 - If type is SAVING_ALLOCATE / SAVING_RELEASE, savingId is required
 
+- If type is INCOME / EXPENSE , categoryId is optional
+- If type is TRANSFER / SAVING_ALLOCATE / SAVING_RELEASE, categoryId is null
+
 - sourceWalletId must provided in wallet
 - destinationWalletId must provided in wallet
+- categoryId must provided in category
 
 - amount is required and must be positive
 - plannedFor is required
 - plannedFor date must be later than the date the plan was created
-- categoryId must provided in category
 
 ### **System Precondition**
 

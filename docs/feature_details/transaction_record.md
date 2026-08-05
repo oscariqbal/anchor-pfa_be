@@ -4,7 +4,7 @@
 
 # Transaction Record
 
-Transaction record define user's financial decision that users want to record. Build pretty straighforward with no strict rules to provide flexibility that align with the app main purposes.
+Transaction record define user's financial decision that users want to record.
 
 Decisions made:
 1. About record's type  
@@ -21,7 +21,7 @@ Decisions made:
     - Edit and delete records may affect another feature like the validity of the data used in analytics can be questioned, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
     - On the other hands, restricting edit and delete have negative effect that cannot be avoided. Records that made not based on financial decisions, like just to 'reversing' some wrong records, surely do harm to analytics result.
 
-- In the end, we want to ensure that records can represent user's financial decision as pure as possible, while maintaining the flexibility, simplicity and convenience which is align with the app main purposes.
+In the end, we want to ensure that records can represent user's financial decision as pure as possible, while maintaining the flexibility, simplicity and convenience which is align with the app main purposes.
 
 ## 1. Record transaction
 
@@ -53,12 +53,15 @@ Decisions made:
 - If type is INCOME / EXPENSE / TRANSFER, savingId is null
 - If type is SAVING_ALLOCATE / SAVING_RELEASE, savingId is required
 
+- If type is INCOME / EXPENSE , categoryId is optional
+- If type is TRANSFER / SAVING_ALLOCATE / SAVING_RELEASE, categoryId is null
+
 - sourceWalletId must provided in wallet
 - destinationWalletId must provided in wallet
+- categoryId must provided in category
 
 - amount is required and must be positive
 - note is required
-- categoryId must provided in category
 
 ### **System Precondition**
 
