@@ -7,9 +7,17 @@
 Category define user's transactions category and act as a tool to help users classify. 
 
 Decisions made:
-- Edit and delete category are allowed because we want to give as much flexibility as we can while respecting user's decision.
-- Edit and delete category that already have tied to some records or plans are allowed, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
-- Delete category that already have tied to some budget will trigger kind of hard confirmation: 'This category contains 6 budget data, 534 transaction records and 12 transaction plan. Destroying this category will permanently remove all budget and clearing transaction records and transaction plan data. Are you sure? Type DESTROY to confirm'
+1. About fields  
+    - Name must be unique from the same user to prevent double category that might be ambiguous when used in transaction records, transaction plan, and/or budget
+    - There will be two option in category's type matching transaction records and transaction plan's type
+
+2. About edit and delete  
+    - Edit and delete category are allowed because we want to give as much flexibility as we can while respecting user's decision.
+    - Edit and/or delete decision are all on user's hand. User must be aware of the consequences before committing to edit and/or delete the wallet. Surely we will warn and explain all the consequences.
+    - Edit category may affect: Transaction Records (Will also change transaction records classification), Transaction Plan (Will also change transaction plan classification), Budget (Will also change budget identity)
+    - Category's type will be prohibited to edit if there are already transaction records, transaction plan and/or budget related to it. We aware that this may limit user's flexibility and became, strangely, contrary to our main purpose and principle. However, we did not find any common use cases in editing category's type, so that by considering the disadvantage (such as ambiguous data, for example FOOD being a category with type EXPENSE and then user decide to change to INCOME), we decide to prohibit the edit action.
+    - Delete category may affect: Transaction (Will also remove transaction records classification), Transaction Plan (Will also remove transaction records classification), Budget (Will also delete budget related)
+    - There will be kind of hard confirmation on category deletion: "This category contains 6 budget data, 534 transaction records and 12 transaction plan. Destroying this category will permanently remove all budget and clearing transaction records and transaction plan category's data. Are you sure? Type DESTROY to confirm"
 
 ## 1. Create category
 
@@ -26,6 +34,7 @@ Decisions made:
 ### **Business Rule**  
 
 - userId automatically collect from user session
+- name must be unique if come from the same user
 - color must be one of color list provided
 
 ### **System Precondition**
@@ -56,8 +65,10 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Updating the category that already has transaction records and/or transaction plan and/or budget may affect some of them. User must be aware of the consequences before committing to edit the category
-- Category's type cannot be change if there are already transaction records and/or transaction plan and/or budget connected to it. We aware that this may limit user's flexibility and became, strangely, contrary to our main purpose and principle. However, we did not find any common use case in editing category's type, so that by considering the disadvantage such as damaged data, we decide to prohibit change to category's type.
+- If name is changed, name must be unique from the same user
+- Category's type cannot be change if there are already transaction records, transaction plan and/or budget related to it
+- If color was changed, color is required
+- If color is changed, color must be one of color list provided
 
 ### **System Precondition**
 
@@ -88,9 +99,8 @@ Decisions made:
 
 ### **Business Rule**
 
-- Deleting the category that already has transaction records and/or transaction plan and/or budget may affect some of them. User must be aware of the consequences before committing to delete the category
-- Delete on category will make connected transaction records and/or transaction plan category to NULL
-- Delete on category will also delete all the connected budgets
+- Delete on category will make related transaction records and/or transaction plan category to NULL
+- Delete on category will also delete all the related budgets
 
 ### **System Precondition**
 
@@ -102,12 +112,12 @@ Decisions made:
 - Identificate user
 - Get category data
 - (user confirm deletion)
-- If the category have connected budgets, delete them first
+- If the category have related budgets, delete them first
 - Delete category data
 
 ### **System Postcondition**
 
-- wWllet records deleted
+- Category deleted
 
 ## 4. View category detail
 

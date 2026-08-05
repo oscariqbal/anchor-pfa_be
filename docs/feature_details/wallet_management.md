@@ -7,10 +7,16 @@
 Wallet define user's money location and act as an identity to a transaction records and plans that represent user's financial decision's money location.
 
 Decisions made:
-- Edit and delete wallet are allowed because we want to give as much flexibility as we can while respecting user's decision.
-- Edit and delete wallet that already have tied to some records or plans are still allowed, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
-- Especially on delete wallet, there will be kind of hard confirmation: 'This wallet contains 2.708 records and 24 plans. Destroying this wallet will permanently remove all related data. Are you sure? Type DESTROY to confirm'
-- On the other hand, we provide 'archive' action to hide and block wallet from being used again, while maintaining the transaction related.
+1. About fields  
+    - none
+
+2. About edit and delete  
+    - Edit and/or delete wallet are allowed because we want to give as much flexibility as we can while respecting user's decision.
+    - Edit and/or delete decision are all on user's hand. User must be aware of the consequences before committing to edit and/or delete the wallet. Surely we will warn and explain all the consequences.
+    - Edit wallet may affect: Transaction Records (Will also change transaction records money location), Transaction Plan (Will also change transaction plan money location)
+    - Delete wallet may affect: Transaction Records (Will also delete transaction records related), Transaction Plan (Will also delete transaction plan related)
+    - There will be kind of hard confirmation on wallet deletion: "This wallet contains 2.708 records and 24 plans. Destroying this wallet will permanently remove all related data. Are you sure? Type DESTROY to confirm"
+    - On the other hand, we provide 'archive' action to hide and block wallet from being used again, while maintaining the transaction related.
 
 ## 1. Create wallet
 
@@ -59,12 +65,16 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Updating the wallet that already has transaction records or transaction plan may affect some of them. User must be aware of the consequences before committing to edit the wallet
+- If type was changed, type is required
+- If name was changed, name is required
+- If color was changed, color is required
 
 ### **System Precondition**
 
 - User must be active
 - There must be at least one wallet
+- If color was changed, color is required
+- If color was changed, color must be one of color list provided
 
 ### **System Process**
 
@@ -90,8 +100,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Deleting the wallet that already has transaction records and/or transaction plan may affect some of them. User must be aware of the consequences before committing to delete the wallet
-- Delete on wallet will also delete the connected transaction records and/or transaction plan
+- Delete on wallet will also delete the related transaction records and/or transaction plan
 
 ### **System Precondition**
 
@@ -109,7 +118,7 @@ Decisions made:
 ### **System Postcondition**
 
 - Wallet deleted
-- If the wallet have transaction records and/or transaction plan, connected transaction records and/or transaction plan deleted
+- If the wallet have transaction records and/or transaction plan, related transaction records and/or transaction plan deleted
 
 ## 4. Archive wallet
 

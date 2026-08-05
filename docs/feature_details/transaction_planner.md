@@ -9,7 +9,6 @@ Transaction planner define user's financial plan that can be executed into real 
 Decisions made:
 - Transaction planner acting like a 'draft' before executed and recorded
 - Transaction plan and transaction record are not connected in a relation to simplify the transaction lifecycle
-- Transaction plan that have successfully executed are then removed
 
 ## 1. Plan transaction
 
@@ -19,7 +18,7 @@ Decisions made:
 |-------|------|------------|-------------|
 | type | enum | required | Transaction plan's type (INCOME, EXPENSE, TRANSFER, SAVING_ALLOCATE, SAVING_RELEASE) |
 | amount | number | required | Amount of money |
-| description | string | optional | Transaction plan's note |
+| note | string | required | Transaction plan's note |
 | plannedFor | dateTime | required | Transaction plan's planned date |
 | categoryId | number | optional | Transaction plan's category |
 | sourceWalletId | number | optional | Transaction plan's source wallet |
@@ -49,7 +48,7 @@ Decisions made:
 
 - amount is required and must be positive
 - plannedFor is required
-- plannedFor date must be later than the date the plan was created
+- plannedFor must be later than the time the plan was created
 
 ### **System Precondition**
 
@@ -84,25 +83,25 @@ Decisions made:
 
 ### **Business Rule**  
 
-- If type changed to INCOME / SAVING_RELEASE, sourceWalletId is null
-- If type changed to INCOME / SAVING_RELEASE, destinationWallet is required
+- If type was changed to INCOME / SAVING_RELEASE, sourceWalletId is null
+- If type was changed to INCOME / SAVING_RELEASE, destinationWallet is required
 
-- If type changed to EXPENSE / SAVING_ALLOCATE, destinationWallet is null
-- If type changed to EXPENSE / SAVING_ALLOCATE, sourceWallet is required
+- If type was changed to EXPENSE / SAVING_ALLOCATE, destinationWallet is null
+- If type was changed to EXPENSE / SAVING_ALLOCATE, sourceWallet is required
 
-- If type changed to TRANSFER, sourceWalletId and destinationWalletId is required
-- If type changed to TRANSFER, sourceWalletId and destinationWalletId cannot be the same
+- If type was changed to TRANSFER, sourceWalletId and destinationWalletId is required
+- If type was changed to TRANSFER, sourceWalletId and destinationWalletId cannot be the same
 
-- If type changed to INCOME / EXPENSE / TRANSFER, savingId is null
-- If type changed to SAVING_ALLOCATE / SAVING_RELEASE, savingId is required
+- If type was changed to INCOME / EXPENSE / TRANSFER, savingId is null
+- If type was changed to SAVING_ALLOCATE / SAVING_RELEASE, savingId is required
 
-- If sourceWalletId is changed, sourceWalletId must provided in wallet
-- If destinationWalletId is changed, destinationWalletId must provided in wallet
+- If sourceWalletId was changed, sourceWalletId must provided in wallet
+- If destinationWalletId was changed, destinationWalletId must provided in wallet
 
-- If amount is changed, amount is required and must be positive
-- If plannedFor is changed, plannedFor is required
-- If plannedFor is changed, plannedFor date must be later than the date the plan was updated
-- If categoryId is changed, categoryId must provided in category
+- If amount was changed, amount is required and must be positive
+- If plannedFor was changed, plannedFor is required
+- If plannedFor was changed, plannedFor must be later than the time the plan was updated
+- If categoryId was changed, categoryId must provided in category
 
 ### **System Precondition**
 
@@ -169,6 +168,7 @@ Decisions made:
 ### **Business Rule**  
 
 - If type is TRANSFER / EXPENSE / SAVING_ALLOCATE, amount cannot exceed sourceWalletId available balance
+- Transaction plan that have successfully executed are then removed
 
 ### **System Precondition**
 
