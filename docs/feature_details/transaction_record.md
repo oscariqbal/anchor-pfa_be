@@ -4,12 +4,24 @@
 
 # Transaction Record
 
-Transaction record define user's financial decision that users want to record. Build pretty straighforward with no strict rules to provide flexibility that align with the app main purpose.
+Transaction record define user's financial decision that users want to record. Build pretty straighforward with no strict rules to provide flexibility that align with the app main purposes.
 
 Decisions made:
-- All transaction type being one use case because there are not many different system process 
-- Edit transaction type are possible because there are not many business rule changed. Although editing transaction type may affect another feature, the decision are all on user hand. User must understand the consequences before committing change.
-- The same reason also applied on Delete transaction
+1. About record's type  
+    - All transaction type be in one use case because there are not many different system process
+
+2. About record's note and category  
+    - Record's note being required and record's category being optional because one records must have at least one identity that can represent user's financial decision's reason. 
+    - We aware that not every financial decision's reason can be represent by one simple category, so that the required one is note
+    - Category can be utilized to classify records. Category also being the base of 'Budget' feature that can be used to monitor user's records.
+    - With all the category's purpose, we want to give as much flexibility as we can so that category being optional. The decision are all on user's hand
+
+3. About edit and delete  
+    - Edit and delete records are allowed because we want to give as much flexibility as we can while respecting user's decision.
+    - Edit and delete records may affect another feature like the validity of the data used in analytics can be questioned, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
+    - On the other hands, restricting edit and delete have negative effect that cannot be avoided. Records that made not based on financial decisions, like just to 'reversing' some wrong records, surely do harm to analytics result.
+
+- In the end, we want to ensure that records can represent user's financial decision as pure as possible, while maintaining the flexibility, simplicity and convenience which is align with the app main purposes.
 
 ## 1. Record transaction
 
@@ -80,7 +92,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Transaction records is the main source of calculation and acting like a core to another features. Updating the transaction record may affect some other features. User must be aware of the consequences before committing to edit the transaction records
+- Updating the transaction record may affect some other features. User must be aware of the consequences before committing to edit the transaction records
 
 - If type changed to INCOME / SAVING_RELEASE, sourceWalletId is null
 - If type changed to INCOME / SAVING_RELEASE, destinationWallet is required
@@ -132,7 +144,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Transaction records is the main source of calculation and acting like a core to another features. Deleting the transaction record may affect some other features. User must be aware of the consequences before committing to delete the transaction records
+- Deleting the transaction record may affect some other features. User must be aware of the consequences before committing to delete the transaction records
 
 ### **System Precondition**
 

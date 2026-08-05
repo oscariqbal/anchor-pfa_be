@@ -4,7 +4,7 @@
 
 # Category Management
 
-Category define user's transactions category and act as a tool to help users classify. There are no strict rules to provide flexibility that align with the app main purpose.
+Category define user's transactions category and act as a tool to help users classify. 
 
 Decisions made:
 - 
@@ -15,7 +15,7 @@ Decisions made:
 
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
-| userId | number | required | Wallet's ownership |
+| userId | number | required | Wallet's ownership | 
 | type | enum | required | Wallet's type (CASH, BANK, E_MONEY) |
 | name | string | required | Wallet's name |
 | description | string | optional | Wallet's description |

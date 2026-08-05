@@ -4,10 +4,12 @@
 
 # Transaction Planner
 
-Transaction planner define user's financial plan that can be realized into real transaction record easily.
+Transaction planner define user's financial plan that can be executed into real transaction records easily.
 
 Decisions made:
-- 
+- Transaction planner acting like a 'draft' before executed and recorded
+- Transaction plan and transaction record are not connected in a relation to simplify the transaction lifecycle
+- Transaction plan that have successfully executed are then removed
 
 ## 1. Plan transaction
 

@@ -4,10 +4,13 @@
 
 # Wallet Management
 
-Wallet define user's money location and act as an identity to a transaction to help users classify. There are no strict rules to provide flexibility that align with the app main purpose.
+Wallet define user's money location and act as an identity to a transaction records and plans that represent user's financial decision's money location.
 
 Decisions made:
-- 
+- Edit and delete wallet are allowed because we want to give as much flexibility as we can while respecting user's decision.
+- Edit and delete wallet that already have tied to some records or plans are still allowed, but the decision are all on user's hand. Surely we will warn and explain all the consequences.
+- Especially on delete wallet, there will be kind of hard confirmation: 'This wallet contains 2.708 records and 24 plans. Destroying this wallet will permanently remove all related data. Are you sure? Type DESTROY to confirm'
+- On the other hand, we provide 'archive' action to hide and block wallet from being used again, while maintaining the transaction related.
 
 ## 1. Create wallet
 
@@ -25,6 +28,7 @@ Decisions made:
 ### **Business Rule**  
 
 - color must be one of color list provided
+- archived automatically set to 0 (no)
 
 ### **System Precondition**
 
@@ -54,7 +58,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Wallet acting as an identity to transaction. Updating the wallet may affect some transaction records and transaction plan. User must be aware of the consequences before committing to edit the wallet
+- Updating the wallet that already has transaction records or transaction plan may affect some transaction records and transaction plan. User must be aware of the consequences before committing to edit the wallet
 
 ### **System Precondition**
 
@@ -85,7 +89,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- Wallet acting as an identity to transaction. Deleting the wallet that already has transaction records or transaction plan is prohibited. As a solution, there are "Archive" option to hide and block the wallet. User can also delete all the connected transaction before deleting the wallet
+- Deleting the wallet that already has transaction records or transaction plan may affect some transaction records and transaction plan. User must be aware of the consequences before committing to delete the wallet
 
 ### **System Precondition**
 
@@ -101,9 +105,69 @@ Decisions made:
 
 ### **System Postcondition**
 
-- wWllet records deleted
+- Wallet records deleted
 
-## 4. View wallet detail
+## 4. Archive wallet
+
+### **Input Spesification**
+
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| walletId | number | required | Wallet's id |
+| archived | boolean | required | Wallet's status (active/archived) |
+
+### **Business Rule**  
+
+- After archived, wallet will be hide and blocked from any other action except de-archive
+- Wallet's archived must be 0 (no)
+
+### **System Precondition**
+
+- User must be active
+- There must be at least one wallet
+
+### **System Process**
+
+- Identificate user
+- Get wallet records data
+- (user confirm archive)
+- set wallet's archived to 1 (yes)
+
+### **System Postcondition**
+
+- Wallet's archived set to 1
+
+## 4. Dearchive wallet
+
+### **Input Spesification**
+
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| walletId | number | required | Wallet's id |
+| archived | boolean | required | Wallet's status (active/archived) |
+
+### **Business Rule**  
+
+- After dearchived, wallet will not be hide and blocked and can be actively used for any other action
+- Wallet's archived must be 1 (yes)
+
+### **System Precondition**
+
+- User must be active
+- There must be at least one wallet
+
+### **System Process**
+
+- Identificate user
+- Get wallet records data
+- (user confirm archive)
+- set wallet's archived to 0 (no)
+
+### **System Postcondition**
+
+- Wallet's archived set to 0
+
+## 6. View wallet detail
 
 ### **Input Spesification**
 
@@ -130,7 +194,7 @@ Decisions made:
 
 - Wallet detailed data displayed
 
-## 5. See wallet list
+## 7. See wallet list
 
 ### **Input Spesification**
 
