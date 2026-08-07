@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Register
 export const registerSchema = z.object({
   name: z
     .string()
@@ -17,6 +18,9 @@ export const registerSchema = z.object({
     .regex(/\d/, "Password must contain at least one number"),
 });
 
+export type RegisterInput = z.infer<typeof registerSchema>;
+
+// Login
 export const loginSchema = z.object({
   email: z
     .email("Invalid email address")
@@ -27,3 +31,8 @@ export const loginSchema = z.object({
     .min(8)
     .regex(/\d/, "Password must contain at least one number"),
 });
+
+export type LoginInput = z.infer<typeof loginSchema>;
+
+// Update 
+export const updateAccountSchema = registerSchema.partial();

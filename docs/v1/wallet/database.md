@@ -1,3 +1,9 @@
+# Wallet
+
+## Database Design
+
+---
+
 | field | type | nullable | default | contstraint | description |
 |-------|------|------------|-------------|
 | id | uuid | no | uuid() | pk | wallet id |

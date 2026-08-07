@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-import { trackSchema,  } from "../schemas/transaction.schema";
+import { trackSchema,  } from "./transaction.schema";
 
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 // ======== TRACK =======
 export async function track(req: Request, res: Response) {

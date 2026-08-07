@@ -1,3 +1,9 @@
+# Authentication
+
+## Database Design
+
+---
+
 | field | type | nullable | default | contstraint | description |
 |-------|------|------------|-------------|
 | id | uuid | no | uuid() | pk | user id |

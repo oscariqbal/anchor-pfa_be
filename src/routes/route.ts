@@ -2,29 +2,28 @@ import { Router } from "express";
 
 import authMiddleware from "../middlewares/auth";
 
-import { register, login, logout } from "../controllers/auth.controller";
-import { dashboard } from "../controllers/analytics.controller";
-import { profile } from "../controllers/user.controller";
-import { track } from "../controllers/transaction.controller";
+import { test } from "../test";
+import { register, login, logout, getCurrentUser } from "../modules/auth/auth.controller";
+import { track } from "../modules/transaction/transaction.controller";
 
 const router = Router();
 
 // ======== PUBLIC =======
+router.get("/test", test);
 
 // auth
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
+router.post("/auth/register", register);
+router.post("/auth/login", login);
+// router.patch("/auth/me", me);
+// router.delete("/auth/me", me);
 
 // ======== PROTECTED =======
 
+// auth
+router.get("/auth/me", authMiddleware, getCurrentUser);
+router.post("/auth/logout", authMiddleware, logout);
+
 // transaction
 router.post("/transaction", authMiddleware, track)
-
-// analytics
-router.get("/dashboard", authMiddleware, dashboard);
-
-// user
-router.get("/profile", authMiddleware, profile);
 
 export default router;

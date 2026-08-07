@@ -1,6 +1,6 @@
 # Authentication
 
-## 1. Create account
+## 1. Register
 
 ### **Input Spesification**
 
@@ -28,7 +28,58 @@
 
 - Account created
 
-## 2. View account
+## 2. Login
+
+### **Input Spesification**
+
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+| email | string | Required | User's email |
+
+### **Business Rule**  
+
+- none
+
+### **System Precondition**
+
+- none
+
+### **System Process**
+
+- Validate data
+- Generate token
+- Send cookie
+- Logging in
+
+### **System Postcondition**
+
+- Logged in
+
+## 3. Logout
+
+### **Input Spesification**
+
+| Field | Type | Properties | Description |
+|-------|------|------------|-------------|
+
+### **Business Rule**  
+
+- none
+
+### **System Precondition**
+
+- none
+
+### **System Process**
+
+- Clear cookie
+- Logging out
+
+### **System Postcondition**
+
+- Logged out
+
+## 4. View account
 
 ### **Input Spesification**
 
@@ -47,70 +98,9 @@
 ### **System Process**
 
 - Identificate user
-- Get account data from database
-- Send account data
+- Get user's account data from database
+- Send user's account data
 
 ### **System Postcondition**
 
-- Account information displayed
-
-## 3. Edit account
-
-### **Input Spesification**
-
-| Field | Type | Properties | Description |
-|-------|------|------------|-------------|
-| userId | number | required | User's id |
-| name | string | optional | User's name |
-| email | string | optional | User's email |
-| password | string | optional | User's password |
-
-### **Business Rule**  
-
-- If name is changed, name must be filled
-- If email is changed, email must be filled
-- If password is changed, password must be filled
-- If password is changed, new password must be different from old password
-
-### **System Precondition**
-
-- User must be active
-
-### **System Process**
-
-- Identificate user
-- Get user's account data
-- (user input new data)
-- Validate changed account data
-- Save new account data
-- Send user's new account data
-
-### **System Postcondition**
-
-- User's account updated
-
-## 4. Remove account
-
-### **Input Spesification**
-
-| Field | Type | Properties | Description |
-|-------|------|------------|-------------|
-| userId | number | required | User's id |
-
-### **Business Rule**  
-
--
-
-### **System Precondition**
-
-- User must be active
-
-### **System Process**
-
-- Identificate user
-- Delete account
-
-### **System Postcondition**
-
-- Account deleted
-- User's login session removed
+- User's account information displayed
