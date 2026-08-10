@@ -24,12 +24,12 @@ Decisions made:
 | type | enum | required | Wallet's type (CASH, BANK, E_MONEY) |
 | name | string | required | Wallet's name |
 | description | string | optional | Wallet's description |
-| archived | boolean | required | Wallet's status (active/archived) |
+| isArchived | boolean | required | Wallet's status (active/archived) |
 
 ### **Business Rule**  
 
 - userId automatically collect from user session
-- archived automatically set to 0 (no)
+- isArchived automatically set to FALSE
 
 ### **System Precondition**
 
@@ -117,12 +117,12 @@ Decisions made:
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
 | walletId | number | required | Wallet's id |
-| archived | boolean | required | Wallet's status (active/archived) |
+| isArchived | boolean | required | Wallet's status (active/archived) |
 
 ### **Business Rule**  
 
 - After archived, wallet will be hide and blocked from any other action except de-archive
-- Wallet's archived must be 0 (no)
+- Wallet's isArchived must be FALSE
 
 ### **System Precondition**
 
@@ -134,11 +134,11 @@ Decisions made:
 - Identificate user
 - Get wallet data
 - (user confirm archive)
-- set wallet's archived to 1 (yes)
+- set wallet's isArchived to TRUE
 
 ### **System Postcondition**
 
-- Wallet's archived set to 1
+- Wallet's isArchived set to TRUE
 
 ## 5. Dearchive wallet
 
@@ -147,12 +147,12 @@ Decisions made:
 | Field | Type | Properties | Description |
 |-------|------|------------|-------------|
 | walletId | number | required | Wallet's id |
-| archived | boolean | required | Wallet's status (active/archived) |
+| isArchived | boolean | required | Wallet's status (active/archived) |
 
 ### **Business Rule**  
 
 - After dearchived, wallet will not be hide and blocked and can be actively used for any other action
-- Wallet's archived must be 1 (yes)
+- Wallet's isArchived must be TRUE
 
 ### **System Precondition**
 
@@ -164,11 +164,11 @@ Decisions made:
 - Identificate user
 - Get wallet data
 - (user confirm archive)
-- set wallet's archived to 0 (no)
+- set wallet's isArchived to FALSE
 
 ### **System Postcondition**
 
-- Wallet's archived set to 0
+- Wallet's isArchived set to FALSE
 
 ## 6. View wallet detail
 
