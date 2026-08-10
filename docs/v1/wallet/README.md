@@ -140,7 +140,7 @@ Decisions made:
 
 - Wallet's isArchived set to TRUE
 
-## 5. Dearchive wallet
+## 5. Unarchive wallet
 
 ### **Input Spesification**
 
@@ -151,7 +151,7 @@ Decisions made:
 
 ### **Business Rule**  
 
-- After dearchived, wallet will not be hide and blocked and can be actively used for any other action
+- After unarchived, wallet will not be hide and blocked and can be actively used for any other action
 - Wallet's isArchived must be TRUE
 
 ### **System Precondition**
