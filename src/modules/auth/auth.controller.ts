@@ -67,7 +67,7 @@ export async function logout(req: Request, res: Response) {
 // View account
 export async function getCurrentUser(req: Request, res: Response) {
   try {
-    const user = await authService.getCurrentUser((req as any).user.id);
+    const user = await authService.getCurrentUser(req.user.id);
     return res.status(200).json({
       message: "View account success",
       user

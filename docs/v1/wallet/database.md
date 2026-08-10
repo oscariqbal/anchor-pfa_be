@@ -14,3 +14,8 @@
 | isArchived | boolean | no | wallet status |
 | createdAt | dateTime | no | now() | - | creation date |
 | updatedAt | dateTime | no | now() | - | last update |
+
+### Type Enum
+- CASH
+- BANK
+- E_MONEY

@@ -16,7 +16,7 @@ const authMiddleware = (
   
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET || "secret") as { userId: number };
-    (req as any).user = {
+    req.user = {
       id: payload.userId,
     };
     
