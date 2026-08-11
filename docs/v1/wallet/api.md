@@ -10,6 +10,6 @@
 | PATCH | `/wallets/:id` | Edit a wallet |
 | DELETE | `wallets/:id` | Delete a wallet |
 | POST | `/wallets/:id/archive` | Archive a wallet |
-| POST | `wallets/:id/unarchive` | Unarchive a wallet |
+| POST | `wallets/:id/dearchive` | Dearchive a wallet |
 | GET | `/wallets/:id` | View a wallet
 | GET | `/wallets` | View all wallets |

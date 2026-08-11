@@ -27,6 +27,10 @@ router.post("/auth/logout", authMiddleware, authController.logout);
 router.post("/wallets", authMiddleware, walletController.create)
 router.patch("/wallets/:id", authMiddleware, walletController.update)
 router.delete("/wallets/:id", authMiddleware, walletController.remove)
+router.post("/wallets/:id/archive", authMiddleware, walletController.archive)
+router.post("/wallets/:id/dearchive", authMiddleware, walletController.dearchive)
+router.get("/wallets/:id", authMiddleware, walletController.getWallet)
+router.get("/wallets", authMiddleware, walletController.getAllWallet)
 
 // transaction
 

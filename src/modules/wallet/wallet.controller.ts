@@ -79,3 +79,92 @@ export async function remove(req: Request, res: Response) {
     })
   }
 }
+
+// Archive
+export async function archive(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: params.error.flatten().fieldErrors,
+    })
+  }
+
+  try {
+    const response = await walletService.archive(params.data.id, req.user.id)
+
+    return res.status(201).json(response)
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      errors: "Internal server error",
+    })
+  }
+}
+
+// Dearchive
+export async function dearchive(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: params.error.flatten().fieldErrors,
+    })
+  }
+
+  try {
+    const response = await walletService.dearchive(params.data.id, req.user.id)
+    
+    return res.status(201).json(response)
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      errors: error,
+    })
+  }
+}
+
+// View a wallet
+export async function getWallet(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: params.error.flatten().fieldErrors,
+    })
+  }
+
+  try {
+    const wallet = await walletService.getWallet(params.data.id, req.user.id);
+
+    return res.status(200).json({
+      message: "View wallet success",
+      wallet
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      errors: "Internal server error",
+    });
+  }
+}
+
+// View all wallets
+export async function getAllWallet(req: Request, res: Response) {
+  try {
+    const wallets = await walletService.getAllWallet(req.user.id)
+
+    return res.status(200).json({
+      message: "View all wallets success",
+      wallets
+    })
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      errors: "Internal server error",
+    })
+  }
+}
