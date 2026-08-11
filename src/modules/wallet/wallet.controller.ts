@@ -56,3 +56,26 @@ export async function update(req: Request, res: Response) {
     });
   }
 }
+
+// Delete
+export async function remove(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json({
+      message: "Validation Error",
+      errors: params.error.flatten().fieldErrors,
+    })
+  }
+
+  try {
+    const response = await walletService.remove(params.data.id, req.user.id)
+
+    return res.status(201).json(response)
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      errors: "Internal server error",
+    })
+  }
+}

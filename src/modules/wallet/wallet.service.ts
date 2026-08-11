@@ -51,3 +51,28 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     message: "Wallet updated",
   };
 }
+
+// Delete
+export async function remove(walletId: number, userId: number) {
+  const wallet = await prisma.wallet.findFirst({
+    where: {
+      id: walletId,
+      userId, 
+      isArchived: false
+    }
+  })
+
+  if (!wallet) {
+    throw new Error("Wallet not found")
+  }
+
+  await prisma.wallet.delete({
+    where: {
+      id: wallet.id
+    }
+  })
+
+  return {
+    message: "Wallet removed"
+  }
+}
