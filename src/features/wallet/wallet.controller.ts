@@ -71,7 +71,7 @@ export async function remove(req: Request, res: Response) {
   try {
     const response = await walletService.remove(params.data.id, req.user.id)
 
-    return res.status(201).json(response)
+    return res.status(201)
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
@@ -138,12 +138,9 @@ export async function getWallet(req: Request, res: Response) {
   }
 
   try {
-    const wallet = await walletService.getWallet(params.data.id, req.user.id);
+    const response = await walletService.getWallet(params.data.id, req.user.id);
 
-    return res.status(200).json({
-      message: "View wallet success",
-      wallet
-    });
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
@@ -155,12 +152,9 @@ export async function getWallet(req: Request, res: Response) {
 // View all wallets
 export async function getAllWallet(req: Request, res: Response) {
   try {
-    const wallets = await walletService.getAllWallet(req.user.id)
+    const response = await walletService.getAllWallet(req.user.id)
 
-    return res.status(200).json({
-      message: "View all wallets success",
-      wallets
-    })
+    return res.status(200).json(response)
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",

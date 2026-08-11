@@ -14,10 +14,11 @@ export async function create(data: CreateInput, userId: number) {
     },
   });
 
-  return {
-    message: "Wallet created",
-    data
-  }
+  return (
+    {
+      data: data
+    }
+  )
 }
 
 // Update
@@ -47,10 +48,11 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     },
   });
     
-  return {
-    message: "Wallet updated",
-    data
-  };
+  return (
+    {
+      data: data
+    }
+  )
 }
 
 // Delete
@@ -72,10 +74,6 @@ export async function remove(walletId: number, userId: number) {
       id: wallet.id
     }
   })
-
-  return {
-    message: "Wallet removed"
-  }
 }
 
 // Archive
@@ -101,9 +99,11 @@ export async function archive(walletId: number, userId: number) {
     }
   })
 
-  return {
-    message: "Wallet archived"
-  }
+  return (
+    {
+      data: wallet
+    }
+  )
 }
 
 // Dearchive
@@ -129,9 +129,11 @@ export async function dearchive(walletId: number, userId: number) {
     }
   })
 
-  return {
-    message: "Wallet dearchived"
-  }
+  return (
+    {
+      data: wallet
+    }
+  )
 }
 
 // View a wallet
@@ -153,7 +155,11 @@ export async function getWallet(walletId: number, userId: number) {
     throw new Error("Wallet not found");
   }
 
-  return wallet
+  return (
+    {
+      data: wallet
+    }
+  )
 }
 
 // View all wallets
@@ -174,5 +180,9 @@ export async function getAllWallet(userId: number) {
     throw new Error("Wallet not found")
   }
 
-  return wallets
+  return (
+    {
+      data: wallets
+    }
+  )
 }
