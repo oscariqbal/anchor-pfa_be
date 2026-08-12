@@ -5,7 +5,7 @@ import { CreateInput, UpdateInput } from "./wallet.schema";
 export async function create(data: CreateInput, userId: number) {
   const { type, name, description } = data;
 
-  await prisma.wallet.create({
+  const wallet = await prisma.wallet.create({
     data: {
       userId,
       type,
@@ -16,7 +16,7 @@ export async function create(data: CreateInput, userId: number) {
 
   return (
     {
-      data: data
+      data: wallet
     }
   )
 }
@@ -25,7 +25,7 @@ export async function create(data: CreateInput, userId: number) {
 export async function update(data: UpdateInput, walletId: number, userId: number) {
   const { type, name, description } = data;
 
-  const wallet = await prisma.wallet.findFirst({
+  const oldwallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
@@ -33,13 +33,13 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     }
   })
 
-  if (!wallet) {
+  if (!oldwallet) {
     throw new Error("Wallet not found");
   }
 
-  await prisma.wallet.update({
+  const wallet = await prisma.wallet.update({
     where: {
-      id: wallet.id
+      id: oldwallet.id
     },
     data: {
       type,
@@ -50,7 +50,7 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     
   return (
     {
-      data: data
+      data: wallet
     }
   )
 }
@@ -78,7 +78,7 @@ export async function remove(walletId: number, userId: number) {
 
 // Archive
 export async function archive(walletId: number, userId: number) {
-  const wallet = await prisma.wallet.findFirst({
+  const oldwallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
@@ -86,13 +86,13 @@ export async function archive(walletId: number, userId: number) {
     }
   })
 
-  if (!wallet) {
+  if (!oldwallet) {
     throw new Error("Wallet not found")
   }
 
-  await prisma.wallet.update({
+  const wallet = await prisma.wallet.update({
     where: {
-      id: wallet.id
+      id: oldwallet.id
     },
     data: {
       isArchived: true
@@ -108,7 +108,7 @@ export async function archive(walletId: number, userId: number) {
 
 // Dearchive
 export async function dearchive(walletId: number, userId: number) {
-  const wallet = await prisma.wallet.findFirst({
+  const oldwallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
@@ -116,13 +116,13 @@ export async function dearchive(walletId: number, userId: number) {
     }
   })
 
-  if (!wallet) {
+  if (!oldwallet) {
     throw new Error("Wallet not found")
   }
 
-  await prisma.wallet.update({
+  const wallet = await prisma.wallet.update({
     where: {
-      id: wallet.id
+      id: oldwallet.id
     },
     data: {
       isArchived: false
@@ -145,6 +145,7 @@ export async function getWallet(walletId: number, userId: number) {
       isArchived: false
     },
     select: {
+      id: true,
       type: true,
       name: true,
       description: true,
@@ -170,6 +171,7 @@ export async function getAllWallet(userId: number) {
       isArchived: false
     },
     select: {
+      id: true,
       type: true,
       name: true,
       description: true,
