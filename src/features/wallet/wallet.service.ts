@@ -1,3 +1,4 @@
+import { AppError } from "../../errors/app-error"
 import { prisma } from "../../lib/prisma";
 import { CreateInput, UpdateInput } from "./wallet.schema";
 
@@ -15,32 +16,31 @@ export async function create(data: CreateInput, userId: number) {
     },
   });
 
-  return (
-    {
-      data: wallet
-    }
-  )
+  return wallet
 }
 
 // Update
 export async function update(data: UpdateInput, walletId: number, userId: number) {
   const { type, name, description } = data;
 
-  const oldwallet = await prisma.wallet.findFirst({
+  const oldWallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
-      isArchived:false
     }
   })
 
-  if (!oldwallet) {
-    throw new Error("Wallet not found");
+  if (!oldWallet) {
+    throw new AppError(404, "Wallet not found");
   }
 
-  const wallet = await prisma.wallet.update({
+  if (oldWallet.isArchived) {
+    throw new AppError(409, "Wallet is archived");
+  }
+
+  const newWallet = await prisma.wallet.update({
     where: {
-      id: oldwallet.id
+      id: oldWallet.id
     },
     data: {
       type,
@@ -49,11 +49,7 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     },
   });
     
-  return (
-    {
-      data: wallet
-    }
-  )
+  return newWallet
 }
 
 // Delete
@@ -62,12 +58,15 @@ export async function remove(walletId: number, userId: number) {
     where: {
       id: walletId,
       userId, 
-      isArchived: false
     }
   })
 
   if (!wallet) {
-    throw new Error("Wallet not found")
+    throw new AppError(404, "Wallet not found")
+  }
+
+   if (wallet.isArchived) {
+    throw new AppError(409, "Wallet is archived");
   }
 
   await prisma.wallet.delete({
@@ -83,25 +82,21 @@ export async function getWallet(walletId: number, userId: number) {
     where: {
       id: walletId,
       userId,
-      isArchived: false
     },
     select: {
       id: true,
       type: true,
       name: true,
       description: true,
+      isArchived: true
     },
   });
 
   if (!wallet) {
-    throw new Error("Wallet not found");
+    throw new AppError(404, "Wallet not found");
   }
 
-  return (
-    {
-      data: wallet
-    }
-  )
+  return wallet
 }
 
 // View all wallets
@@ -109,83 +104,73 @@ export async function getAllWallet(userId: number) {
   const wallets = await prisma.wallet.findMany({
     where: {
       userId,
-      isArchived: false
     },
     select: {
       id: true,
       type: true,
       name: true,
       description: true,
+      isArchived: true,
     }
   })
 
-  if (!wallets) {
-    throw new Error("Wallet not found")
-  }
-
-  return (
-    {
-      data: wallets
-    }
-  )
+  return wallets
 }
 
 // Archive
 export async function archive(walletId: number, userId: number) {
-  const oldwallet = await prisma.wallet.findFirst({
+  const oldWallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
-      isArchived: false
     }
   })
 
-  if (!oldwallet) {
-    throw new Error("Wallet not found")
+  if (!oldWallet) {
+    throw new AppError(404, "Wallet not found")
   }
 
-  const wallet = await prisma.wallet.update({
+  if (oldWallet.isArchived) {
+    throw new AppError(409, "Wallet already archived")
+  }
+
+  const newWallet = await prisma.wallet.update({
     where: {
-      id: oldwallet.id
+      id: oldWallet.id
     },
     data: {
       isArchived: true
     }
   })
 
-  return (
-    {
-      data: wallet
-    }
-  )
+  return newWallet
 }
 
 // Dearchive
 export async function dearchive(walletId: number, userId: number) {
-  const oldwallet = await prisma.wallet.findFirst({
+  const oldWallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
-      isArchived: true
     }
   })
 
-  if (!oldwallet) {
-    throw new Error("Wallet not found")
+  if (!oldWallet) {
+    throw new AppError(404, "Wallet not found")
   }
 
-  const wallet = await prisma.wallet.update({
+  if (!oldWallet.isArchived) {
+    throw new AppError(409, "Wallet are not archived")
+  }
+
+  const newWallet = await prisma.wallet.update({
     where: {
-      id: oldwallet.id
+      id: oldWallet.id
     },
     data: {
       isArchived: false
     }
   })
 
-  return (
-    {
-      data: wallet
-    }
-  )
+  return newWallet
 }

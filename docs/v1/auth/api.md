@@ -29,6 +29,7 @@
     "password": ""
 }
 ```
+
 ### Logout
 
 ```text
@@ -36,6 +37,7 @@
 
 }
 ```
+
 ### View account
 
 ```text
@@ -64,7 +66,7 @@
 
 ```text
 {
-    "message": "Validation failed",
+    "message": "Request validation failed",
     "data": null,
     "errors": {
         "field": {

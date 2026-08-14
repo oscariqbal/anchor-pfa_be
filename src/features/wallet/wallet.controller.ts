@@ -1,5 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-
+import { AppError } from "../../errors/app-error"
+import { successResponse, errorResponse } from "../../response/response";
+import { mapZodErrors } from "../../errors/validation-error";
+import { Request, Response } from "express";
 import { createSchema, paramsSchema, updateSchema } from "./wallet.schema";
 import * as walletService from "./wallet.service"
 
@@ -8,21 +10,41 @@ export async function create(req: Request, res: Response) {
   const body = createSchema.safeParse(req.body);
 
   if (!body.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: body.error.flatten().fieldErrors,
-    });
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(body.error)
+        }
+      )
+    )
   }
 
   try {
     const response = await walletService.create(body.data, req.user.id);
 
-    return res.status(201).json(response);
+    return res.status(201).json(
+      successResponse(
+        "Wallet created successfully",
+        response
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -32,28 +54,52 @@ export async function update(req: Request, res: Response) {
   const body = updateSchema.safeParse(req.body);
 
   if (!params.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: params.error.flatten().fieldErrors,
-    })
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
   }
 
   if (!body.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: body.error.flatten().fieldErrors,
-    });
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(body.error)
+        }
+      )
+    )
   }
 
   try {
     const response = await walletService.update(body.data, params.data.id, req.user.id);
 
-    return res.status(201).json(response);
+    return res.status(200).json(
+      successResponse(
+        "Wallet updated successfully",
+        response
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -62,67 +108,40 @@ export async function remove(req: Request, res: Response) {
   const params = paramsSchema.safeParse(req.params)
 
   if (!params.success) {
-    return res.status(400).json({
-      message: "Validation Error",
-      errors: params.error.flatten().fieldErrors,
-    })
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
   }
 
   try {
-    const response = await walletService.remove(params.data.id, req.user.id)
+    await walletService.remove(params.data.id, req.user.id)
 
-    return res.status(201)
+    return res.status(200).json(
+      successResponse(
+        "Wallet destroyed successfully",
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    })
-  }
-}
+    console.error(error);
 
-// Archive
-export async function archive(req: Request, res: Response) {
-  const params = paramsSchema.safeParse(req.params)
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
 
-  if (!params.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: params.error.flatten().fieldErrors,
-    })
-  }
-
-  try {
-    const response = await walletService.archive(params.data.id, req.user.id)
-
-    return res.status(201).json(response)
-  } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    })
-  }
-}
-
-// Dearchive
-export async function dearchive(req: Request, res: Response) {
-  const params = paramsSchema.safeParse(req.params)
-
-  if (!params.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: params.error.flatten().fieldErrors,
-    })
-  }
-
-  try {
-    const response = await walletService.dearchive(params.data.id, req.user.id)
-    
-    return res.status(201).json(response)
-  } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: error,
-    })
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -131,21 +150,41 @@ export async function getWallet(req: Request, res: Response) {
   const params = paramsSchema.safeParse(req.params)
 
   if (!params.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: params.error.flatten().fieldErrors,
-    })
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
   }
 
   try {
     const response = await walletService.getWallet(params.data.id, req.user.id);
 
-    return res.status(200).json(response);
+    return res.status(200).json(
+      successResponse(
+        "Wallet retrieved successfully",
+        response
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -154,11 +193,113 @@ export async function getAllWallet(req: Request, res: Response) {
   try {
     const response = await walletService.getAllWallet(req.user.id)
 
-    return res.status(200).json(response)
+    return res.status(200).json(
+      successResponse(
+        "Wallets retrieved successfully",
+        response
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    })
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
+  }
+}
+
+// Archive
+export async function archive(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
+  }
+
+  try {
+    const response = await walletService.archive(params.data.id, req.user.id)
+
+    return res.status(201).json(
+      successResponse(
+        "Wallet archived successfully",
+        response
+      )
+    )
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
+  }
+}
+
+// Dearchive
+export async function dearchive(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
+  }
+
+  try {
+    const response = await walletService.dearchive(params.data.id, req.user.id)
+    
+    return res.status(201).json(
+      successResponse(
+        "Wallet dearchived successfully",
+        response
+      )
+    )
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }

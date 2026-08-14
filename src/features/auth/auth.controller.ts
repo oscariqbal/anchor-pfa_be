@@ -1,31 +1,31 @@
 import { AppError } from "../../errors/app-error"
 import { successResponse, errorResponse } from "../../response/response";
 import { mapZodErrors } from "../../errors/validation-error";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { registerSchema, loginSchema } from "./auth.schema";
 import * as authService from "./auth.service"
 
 // Register
 export async function register(req: Request, res: Response) {
-  const result = registerSchema.safeParse(req.body);
+  const body = registerSchema.safeParse(req.body);
 
-  if (!result.success) {
+  if (!body.success) {
     return res.status(400).json(
       errorResponse(
-        "Validation failed",
+        "Request validation failed",
         {
-          field: mapZodErrors(result.error)
+          field: mapZodErrors(body.error)
         }
       )
     );
   }
 
   try {
-    await authService.register(result.data);
+    await authService.register(body.data);
 
     return res.status(201).json(
       successResponse(
-        "Account registered",
+        "Account registered successfully",
       )
     )
   } catch (error) {
@@ -36,7 +36,7 @@ export async function register(req: Request, res: Response) {
         errorResponse(
           error.message
         )
-      );
+      )
     }
 
     return res.status(500).json(
@@ -49,21 +49,21 @@ export async function register(req: Request, res: Response) {
 
 // Login
 export async function login(req: Request, res: Response) {
-  const result = loginSchema.safeParse(req.body);
+  const body = loginSchema.safeParse(req.body);
 
-  if (!result.success) {
+  if (!body.success) {
     return res.status(400).json(
       errorResponse(
-        "Validation failed",
+        "Request validation failed",
         {
-          field: mapZodErrors(result.error)
+          field: mapZodErrors(body.error)
         }
       )
-    );
+    )
   }
 
   try {
-    const response = await authService.login(result.data);
+    const response = await authService.login(body.data);
 
     res.cookie("token", response.token, {
       httpOnly: true,
@@ -73,7 +73,7 @@ export async function login(req: Request, res: Response) {
 
     return res.status(200).json(
       successResponse(
-        "Login success",
+        "Account signed in successfully",
       )
     )
   } catch (error) {
@@ -84,7 +84,7 @@ export async function login(req: Request, res: Response) {
         errorResponse(
           error.message
         )
-      );
+      )
     }
 
     return res.status(500).json(
@@ -99,9 +99,11 @@ export async function login(req: Request, res: Response) {
 export async function logout(req: Request, res: Response) {
   res.clearCookie("token");
 
-  res.status(200).json({
-    message: "Logout success",
-  });
+  return res.status(200).json(
+    successResponse(
+      "Account signed out successfully",
+    )
+  )
 }
 
 // View account
@@ -111,7 +113,7 @@ export async function getCurrentUser(req: Request, res: Response) {
 
     return res.status(200).json(
       successResponse(
-        "View account success",
+        "Account retrieved successfully",
         response
       )
     )

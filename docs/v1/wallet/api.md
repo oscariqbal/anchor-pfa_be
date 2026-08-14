@@ -9,40 +9,114 @@
 | POST |  `/wallets` | Create a wallet |
 | PATCH | `/wallets/:id` | Edit a wallet |
 | DELETE | `wallets/:id` | Delete a wallet |
-| POST | `/wallets/:id/archive` | Archive a wallet |
-| POST | `wallets/:id/dearchive` | Dearchive a wallet |
 | GET | `/wallets/:id` | View a wallet
 | GET | `/wallets` | View all wallets |
+| POST | `/wallets/:id/archive` | Archive a wallet |
+| POST | `wallets/:id/dearchive` | Dearchive a wallet |
 
+## 1. Request
 
-### View wallet
+### Create
+
 ```text
 {
+    "type": "",
+    "name": "",
+    "description": ""
+}
+```
+
+### Edit
+
+```text
+{
+    "description": ""
+}
+```
+
+### Delete
+
+```text
+
+```
+
+### View a wallet
+
+```text
+
+```
+
+### View all wallets
+
+```text
+
+```
+
+### Archive a wallet
+
+```text
+
+```
+
+### Dearchive a wallet
+
+```text
+
+```
+
+## 2. Response
+
+### Success
+
+```text
+{
+    "message": "",
     "data": {
-        "id": 0,
+        "id": ,
         "type": "",
         "name": "",
-        "description": ""
+        "description": "",
+        "isArchived": ,
+        "createdAt": "",
+        "updatedAt": "",
+        "userId": 
+    },
+    "errors": null
+}
+```
+
+### Validation error
+
+```text
+{
+    "message": "Request validation failed",
+    "data": null,
+    "errors": {
+        "field": {
+            "description": [
+                "Wallet description must be a string"
+            ]
+        }
     }
 }
 ```
 
-### View all wallets
+### Business error
+
 ```text
 {
-    "data": [
-        {
-            "id": 0,
-            "type": "",
-            "name": "",
-            "description": ""
-        },
-        {
-            "id": 0,
-            "type": "",
-            "name": "",
-            "description": ""
-        },
-    ]
+    "message": "Wallet not found",
+    "data": null,
+    "errors": null
+}
+```
+
+### Exceptional error
+
+```text
+{
+    "message": "Internal server error",
+    "data": null,
+    "errors": null
 }
 ```

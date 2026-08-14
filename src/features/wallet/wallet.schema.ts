@@ -5,23 +5,23 @@ import { z } from "zod";
 export const paramsSchema = z.object({
   id: z
     .coerce
-    .number()
-    .int()
-    .positive()
-});
+    .number("Wallet id must be a number")
+    .int("Wallet id must be an integer")
+    .positive("Wallet id must be positive")
+})
 
 // === Query ===
 
 export const querySchema = z.object({
   archived: z.
     coerce
-    .boolean()
+    .boolean("Wallet archived must be boolean")
     .optional(),
   type: z
-    .enum(["CASH", "BANK", "E_MONEY"])
+    .enum(["CASH", "BANK", "E_MONEY", "Wallet type must be one of the provided type"])
     .optional(),
   search: z
-    .string()
+    .string("Wallet search must be a string")
     .trim()
     .optional(),
 });
@@ -30,19 +30,19 @@ export const querySchema = z.object({
 
 export const createSchema = z.object({
   type: z
-    .enum(["CASH", "BANK", "E_MONEY"]),
+    .enum(["CASH", "BANK", "E_MONEY"], "Wallet type must be one of the provided type"),
   name: z
-    .string()
+    .string("Wallet name must be a string")
     .trim()
-    .min(1, "Name must be at least 1 characters")
-    .max(20, "Name must be at most 20 characters"),
+    .min(1, "Wallet name is required")
+    .max(20, "Wallet name must be at most 20 characters"),
   description: z
-    .string()
-    .max(255, "Description")
+    .string("Wallet description must be a string")
+    .max(255, "Wallet description must be at most 255 characters")
     .optional(),
-});
+}).strict()
 
-export const updateSchema = createSchema.partial();
+export const updateSchema = createSchema.partial().strict()
 
 // === Types ===
 
