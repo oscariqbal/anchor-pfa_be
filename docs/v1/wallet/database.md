@@ -6,8 +6,8 @@
 
 | field | type | nullable | default | contstraint | description |
 |-------|------|------------|-------------|
-| id | uuid | no | uuid() | pk | wallet id |
-| userId | uuid | no | uuid() | fk | owner |
+| id | uuid | no | int | pk | wallet id |
+| userId | uuid | no | int | fk | owner |
 | type | enum | no | wallet type |
 | name | string | no | wallet name |
 | description | string | yes | wallet description |

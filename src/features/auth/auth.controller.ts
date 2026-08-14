@@ -1,5 +1,7 @@
+import { AppError } from "../../errors/app-error"
+import { successResponse, errorResponse } from "../../response/response";
+import { mapZodErrors } from "../../errors/validation-error";
 import { Request, Response, NextFunction } from "express";
-
 import { registerSchema, loginSchema } from "./auth.schema";
 import * as authService from "./auth.service"
 
@@ -8,21 +10,40 @@ export async function register(req: Request, res: Response) {
   const result = registerSchema.safeParse(req.body);
 
   if (!result.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: result.error.flatten().fieldErrors,
-    });
+    return res.status(400).json(
+      errorResponse(
+        "Validation failed",
+        {
+          field: mapZodErrors(result.error)
+        }
+      )
+    );
   }
 
   try {
-    const response = await authService.register(result.data);
+    await authService.register(result.data);
 
-    return res.status(201).json(response);
+    return res.status(201).json(
+      successResponse(
+        "Account registered",
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      );
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -31,10 +52,14 @@ export async function login(req: Request, res: Response) {
   const result = loginSchema.safeParse(req.body);
 
   if (!result.success) {
-    return res.status(400).json({
-      message: "Validation error",
-      errors: result.error.flatten().fieldErrors,
-    });
+    return res.status(400).json(
+      errorResponse(
+        "Validation failed",
+        {
+          field: mapZodErrors(result.error)
+        }
+      )
+    );
   }
 
   try {
@@ -46,12 +71,27 @@ export async function login(req: Request, res: Response) {
       sameSite: "lax",
     });
 
-    return res.status(201).json(response);
+    return res.status(200).json(
+      successResponse(
+        "Login success",
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      );
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }
 
@@ -60,22 +100,28 @@ export async function logout(req: Request, res: Response) {
   res.clearCookie("token");
 
   res.status(200).json({
-    message: "Logout berhasil",
+    message: "Logout success",
   });
 }
 
 // View account
 export async function getCurrentUser(req: Request, res: Response) {
   try {
-    const user = await authService.getCurrentUser(req.user.id);
-    return res.status(200).json({
-      message: "View account success",
-      user
-    });
+    const response = await authService.getCurrentUser(req.user.id);
+
+    return res.status(200).json(
+      successResponse(
+        "View account success",
+        response
+      )
+    )
   } catch (error) {
-    return res.status(500).json({
-      message: "Internal server error",
-      errors: "Internal server error",
-    });
+    console.error(error);
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
   }
 }

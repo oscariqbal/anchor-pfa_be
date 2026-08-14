@@ -16,27 +16,33 @@
 
 
 ### View wallet
+```text
 {
     "data": {
+        "id": 0,
         "type": "",
         "name": "",
         "description": ""
     }
 }
-
+```
 
 ### View all wallets
+```text
 {
     "data": [
         {
+            "id": 0,
             "type": "",
             "name": "",
             "description": ""
         },
         {
+            "id": 0,
             "type": "",
             "name": "",
             "description": ""
         },
     ]
 }
+```

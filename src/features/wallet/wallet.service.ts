@@ -11,6 +11,7 @@ export async function create(data: CreateInput, userId: number) {
       type,
       name,
       description,
+      isArchived: false
     },
   });
 
@@ -76,6 +77,59 @@ export async function remove(walletId: number, userId: number) {
   })
 }
 
+// View a wallet
+export async function getWallet(walletId: number, userId: number) {
+  const wallet = await prisma.wallet.findUnique({
+    where: {
+      id: walletId,
+      userId,
+      isArchived: false
+    },
+    select: {
+      id: true,
+      type: true,
+      name: true,
+      description: true,
+    },
+  });
+
+  if (!wallet) {
+    throw new Error("Wallet not found");
+  }
+
+  return (
+    {
+      data: wallet
+    }
+  )
+}
+
+// View all wallets
+export async function getAllWallet(userId: number) {
+  const wallets = await prisma.wallet.findMany({
+    where: {
+      userId,
+      isArchived: false
+    },
+    select: {
+      id: true,
+      type: true,
+      name: true,
+      description: true,
+    }
+  })
+
+  if (!wallets) {
+    throw new Error("Wallet not found")
+  }
+
+  return (
+    {
+      data: wallets
+    }
+  )
+}
+
 // Archive
 export async function archive(walletId: number, userId: number) {
   const oldwallet = await prisma.wallet.findFirst({
@@ -132,59 +186,6 @@ export async function dearchive(walletId: number, userId: number) {
   return (
     {
       data: wallet
-    }
-  )
-}
-
-// View a wallet
-export async function getWallet(walletId: number, userId: number) {
-  const wallet = await prisma.wallet.findUnique({
-    where: {
-      id: walletId,
-      userId,
-      isArchived: false
-    },
-    select: {
-      id: true,
-      type: true,
-      name: true,
-      description: true,
-    },
-  });
-
-  if (!wallet) {
-    throw new Error("Wallet not found");
-  }
-
-  return (
-    {
-      data: wallet
-    }
-  )
-}
-
-// View all wallets
-export async function getAllWallet(userId: number) {
-  const wallets = await prisma.wallet.findMany({
-    where: {
-      userId,
-      isArchived: false
-    },
-    select: {
-      id: true,
-      type: true,
-      name: true,
-      description: true,
-    }
-  })
-
-  if (!wallets) {
-    throw new Error("Wallet not found")
-  }
-
-  return (
-    {
-      data: wallets
     }
   )
 }
