@@ -5,7 +5,6 @@ import authMiddleware from "../middlewares/auth";
 import { test } from "../test";
 import * as authController from "../features/auth/auth.controller";
 import * as walletController from "../features/wallet/wallet.controller";
-import { track } from "../features/transaction/transaction.controller";
 
 const router = Router();
 

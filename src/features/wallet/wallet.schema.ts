@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { WalletType } from "@prisma/client";
 
 // === Params ===
 
@@ -11,10 +12,10 @@ export const paramsSchema = z.object({
 })
 
 // === Query ===
-
+// example, query filters will added soon
 export const querySchema = z.object({
   type: z
-    .enum(["CASH", "BANK", "E_MONEY", "Wallet type must be one of the provided type"])
+    .enum(WalletType, "Invalid wallet type")
     .optional(),
   search: z
     .string("Wallet search must be a string")
@@ -26,7 +27,7 @@ export const querySchema = z.object({
 
 export const createSchema = z.object({
   type: z
-    .enum(["CASH", "BANK", "E_MONEY"], "Wallet type must be one of the provided type"),
+    .enum(WalletType, "Invalid wallet type"),
   name: z
     .string("Wallet name must be a string")
     .trim()
