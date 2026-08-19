@@ -11,8 +11,6 @@
 | DELETE | `wallets/:id` | Delete a wallet |
 | GET | `/wallets/:id` | View a wallet
 | GET | `/wallets` | View all wallets |
-| POST | `/wallets/:id/archive` | Archive a wallet |
-| POST | `wallets/:id/dearchive` | Dearchive a wallet |
 
 ## 1. Request
 
@@ -47,18 +45,6 @@
 ```
 
 ### View all wallets
-
-```text
-
-```
-
-### Archive a wallet
-
-```text
-
-```
-
-### Dearchive a wallet
 
 ```text
 

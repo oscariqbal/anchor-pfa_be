@@ -13,10 +13,6 @@ export const paramsSchema = z.object({
 // === Query ===
 
 export const querySchema = z.object({
-  archived: z.
-    coerce
-    .boolean("Wallet archived must be boolean")
-    .optional(),
   type: z
     .enum(["CASH", "BANK", "E_MONEY", "Wallet type must be one of the provided type"])
     .optional(),

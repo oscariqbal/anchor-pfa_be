@@ -46,7 +46,6 @@ model Wallet {
   type        WalletType
   name        String
   description String?
-  isArchived    Boolean @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
