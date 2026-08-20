@@ -6,7 +6,7 @@ import { CreateInput, UpdateInput } from "./wallet.schema";
 export async function create(data: CreateInput, userId: number) {
   const { type, name, description } = data;
 
-  const wallet = await prisma.wallet.create({
+  const newWallet = await prisma.wallet.create({
     data: {
       userId,
       type,
@@ -15,7 +15,7 @@ export async function create(data: CreateInput, userId: number) {
     },
   });
 
-  return wallet
+  return newWallet
 }
 
 // Update

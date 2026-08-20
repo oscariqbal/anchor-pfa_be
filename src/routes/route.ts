@@ -5,6 +5,7 @@ import authMiddleware from "../middlewares/auth";
 import { test } from "../test";
 import * as authController from "../features/auth/auth.controller";
 import * as walletController from "../features/wallet/wallet.controller";
+import * as transactionController from "../features/transaction/transaction.controller"
 
 const router = Router();
 
@@ -30,5 +31,6 @@ router.get("/wallets/:id", authMiddleware, walletController.getWallet)
 router.get("/wallets", authMiddleware, walletController.getAllWallet)
 
 // transaction
+router.post("/transactions", authMiddleware, transactionController.create)
 
 export default router;

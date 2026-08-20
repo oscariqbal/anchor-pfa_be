@@ -46,6 +46,7 @@ export const createSchema = z.object({
   note: z
     .string("Transaction note must be a string")
     .trim()
+    .min(1, "Transaction note is required")
     .max(255, "Transaction note must be at most 255 characters")
 });
 

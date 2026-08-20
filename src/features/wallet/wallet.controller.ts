@@ -10,7 +10,7 @@ export async function create(req: Request, res: Response) {
   const body = createSchema.safeParse(req.body);
 
   if (!body.success) {
-    return res.status(400).json(
+    return res.status(422).json(
       errorResponse(
         "Request validation failed",
         {
@@ -54,7 +54,7 @@ export async function update(req: Request, res: Response) {
   const body = updateSchema.safeParse(req.body);
 
   if (!params.success) {
-    return res.status(400).json(
+    return res.status(422).json(
       errorResponse(
         "Request validation failed",
         {
@@ -65,7 +65,7 @@ export async function update(req: Request, res: Response) {
   }
 
   if (!body.success) {
-    return res.status(400).json(
+    return res.status(422).json(
       errorResponse(
         "Request validation failed",
         {
@@ -108,7 +108,7 @@ export async function remove(req: Request, res: Response) {
   const params = paramsSchema.safeParse(req.params)
 
   if (!params.success) {
-    return res.status(400).json(
+    return res.status(422).json(
       errorResponse(
         "Request validation failed",
         {
@@ -150,7 +150,7 @@ export async function getWallet(req: Request, res: Response) {
   const params = paramsSchema.safeParse(req.params)
 
   if (!params.success) {
-    return res.status(400).json(
+    return res.status(422).json(
       errorResponse(
         "Request validation failed",
         {
