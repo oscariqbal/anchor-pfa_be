@@ -1,46 +1,56 @@
 import { prisma } from "../lib/prisma";
 import { Prisma } from "@prisma/client";
 
-export async function getWalletBalance(walletId: number) {
-  const walletIncome = await prisma.transaction.aggregate({
-    _sum: {
-      amount: true
-    },
-    where: {
-      destinationWalletId: walletId,
-      type: "INCOME"
-    },
-  })
+export async function getWalletBalance(walletId: number, excludeTransactionId? : number) {
 
-  const walletTransferIncome = await prisma.transaction.aggregate({
-    _sum: {
-      amount: true
-    },
-    where: {
-      destinationWalletId: walletId,
-      type: "TRANSFER"
-    },
-  })
+  const transactionFilter = excludeTransactionId ? {
+    id: {
+      not: excludeTransactionId
+    }
+  } : {}
 
-  const walletExpense = await prisma.transaction.aggregate({
-    _sum: {
-      amount: true
-    },
-    where: {
-      sourceWalletId: walletId,
-      type: "EXPENSE"
-    },
-  })
-
-  const walletTransferExpense = await prisma.transaction.aggregate({
-    _sum: {
-      amount: true
-    },
-    where: {
-      sourceWalletId: walletId,
-      type: "TRANSFER"
-    },
-  })
+  const [walletIncome, walletTransferIncome, walletExpense, walletTransferExpense] = await Promise.all([
+    prisma.transaction.aggregate({
+      _sum: {
+        amount: true
+      },
+      where: {
+        ...transactionFilter,
+        destinationWalletId: walletId,
+        type: "INCOME"
+      },
+    }),
+    prisma.transaction.aggregate({
+      _sum: {
+        amount: true
+      },
+      where: {
+        ...transactionFilter,
+        destinationWalletId: walletId,
+        type: "TRANSFER"
+      },
+    }),
+    prisma.transaction.aggregate({
+      _sum: {
+        amount: true
+      },
+      where: {
+        ...transactionFilter,
+        sourceWalletId: walletId,
+        type: "EXPENSE"
+      },
+    }),
+    prisma.transaction.aggregate({
+      _sum: {
+        amount: true
+      },
+      where: {
+        ...transactionFilter,
+        sourceWalletId: walletId,
+        type: "TRANSFER"
+      },
+    })
+  ])
 
   const walletBalance = 
   (walletIncome._sum.amount ?? new Prisma.Decimal(0))

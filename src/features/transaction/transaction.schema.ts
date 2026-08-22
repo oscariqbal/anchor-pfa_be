@@ -25,18 +25,6 @@ export const querySchema = z.object({
 // === Body ===
 
 export const createSchema = z.object({
-  sourceWalletId: z
-    .coerce
-    .number("Source Wallet Id amount must be a number")
-    .int("Source Wallet Id amount must be an integer")
-    .positive("Source Wallet Id must be a positive number")
-    .optional(),
-  destinationWalletId: z
-    .coerce
-    .number("Source Wallet Id amount must be a number")
-    .int("Source Wallet Id amount must be an integer")
-    .positive("Source Wallet Id must be a positive number")
-    .optional(),
   type: z
     .enum(TransactionType, "Invalid transaction type"),
   amount: z
@@ -47,10 +35,22 @@ export const createSchema = z.object({
     .string("Transaction note must be a string")
     .trim()
     .min(1, "Transaction note is required")
-    .max(255, "Transaction note must be at most 255 characters")
+    .max(255, "Transaction note must be at most 255 characters"),
+  sourceWalletId: z
+    .coerce
+    .number("Source Wallet Id amount must be a number")
+    .int("Source Wallet Id amount must be an integer")
+    .positive("Source Wallet Id must be a positive number")
+    .optional(),
+  destinationWalletId: z
+    .coerce
+    .number("Destination Wallet Id amount must be a number")
+    .int("Destination Wallet Id amount must be an integer")
+    .positive("Destination Wallet Id must be a positive number")
+    .optional(),
 });
 
-export const updateSchema = createSchema.partial()
+export const updateSchema = createSchema.partial().strict()
 
 // === Types ===
 

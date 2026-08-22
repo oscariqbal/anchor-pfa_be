@@ -20,12 +20,17 @@ export async function create(data: CreateInput, userId: number) {
 
 // Update
 export async function update(data: UpdateInput, walletId: number, userId: number) {
-  const { type, name, description } = data;
+  if (Object.keys(data).length === 0) {
+    throw new AppError(422, "At least one field is required")
+  }
 
   const oldWallet = await prisma.wallet.findFirst({
     where: {
       id: walletId,
       userId,
+    },
+    select: {
+      id: true
     }
   })
 
@@ -37,11 +42,7 @@ export async function update(data: UpdateInput, walletId: number, userId: number
     where: {
       id: oldWallet.id
     },
-    data: {
-      type,
-      name,
-      description,
-    },
+    data
   });
     
   return newWallet
@@ -53,6 +54,9 @@ export async function remove(walletId: number, userId: number) {
     where: {
       id: walletId,
       userId, 
+    },
+    select: {
+      id: true
     }
   })
 

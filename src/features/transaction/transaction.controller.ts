@@ -47,3 +47,58 @@ export async function create(req: Request, res: Response) {
     )
   }
 }
+
+// Update
+export async function update(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+  const body = updateSchema.safeParse(req.body);
+
+  if (!params.success) {
+    return res.status(422).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
+  }
+
+  if (!body.success) {
+    return res.status(422).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(body.error)
+        }
+      )
+    )
+  }
+
+  try {
+    const response = await transactionService.update(body.data, params.data.id, req.user.id);
+
+    return res.status(200).json(
+      successResponse(
+        "Transaction updated successfully",
+        response
+      )
+    )
+  } catch (error) {
+    console.error(error);6
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
+  }
+}

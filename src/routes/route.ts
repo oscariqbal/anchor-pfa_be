@@ -32,5 +32,6 @@ router.get("/wallets", authMiddleware, walletController.getAllWallet)
 
 // transaction
 router.post("/transactions", authMiddleware, transactionController.create)
+router.patch("/transactions/:id", authMiddleware, transactionController.update)
 
 export default router;
