@@ -66,7 +66,7 @@ export async function remove(walletId: number, userId: number) {
 
   await prisma.wallet.delete({
     where: {
-      id: wallet.id
+      id: walletId
     }
   })
 }

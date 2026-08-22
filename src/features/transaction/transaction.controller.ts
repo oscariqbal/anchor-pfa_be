@@ -102,3 +102,45 @@ export async function update(req: Request, res: Response) {
     )
   }
 }
+
+// Delete
+export async function remove(req: Request, res: Response) {
+  const params = paramsSchema.safeParse(req.params)
+
+  if (!params.success) {
+    return res.status(422).json(
+      errorResponse(
+        "Request validation failed",
+        {
+          field: mapZodErrors(params.error)
+        }
+      )
+    )
+  }
+
+  try {
+    await transactionService.remove(params.data.id, req.user.id)
+
+    return res.status(200).json(
+      successResponse(
+        "Transaction destroyed successfully",
+      )
+    )
+  } catch (error) {
+    console.error(error);
+
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(
+        errorResponse(
+          error.message
+        )
+      )
+    }
+
+    return res.status(500).json(
+      errorResponse(
+        "Internal server error"
+      )
+    )
+  }
+}

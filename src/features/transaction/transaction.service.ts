@@ -141,14 +141,26 @@ export async function create(data: CreateInput, userId: number) {
 }
 
 // Update
-export async function update(data: UpdateInput, transactionId: number, userId: number, ) {
+export async function update(data: UpdateInput, transactionId: number, userId: number) {
   if (Object.keys(data).length === 0) {
     throw new AppError(422, "At least one field is required")
   }
 
   const oldTransaction = await prisma.transaction.findFirst({
     where: {
-      id: transactionId
+      id: transactionId,
+      OR: [
+        {
+          sourceWallet: {
+            userId
+          }
+        },
+        {
+          destinationWallet: {
+            userId
+          }
+        }
+      ]
     },
     select: {
       id: true,
@@ -314,4 +326,38 @@ export async function update(data: UpdateInput, transactionId: number, userId: n
 
     return newTransaction
   }
+}
+
+// Delete
+export async function remove(transactionId: number, userId: number) {
+  const transaction = await prisma.transaction.findFirst({
+    where: {
+      id: transactionId,
+      OR: [
+        {
+          sourceWallet: {
+            userId
+          }
+        },
+        {
+          destinationWallet: {
+            userId
+          }
+        }
+      ]
+    },
+    select: {
+      id: true
+    }
+  })
+
+  if (!transaction) {
+    throw new AppError(404, "Transaction not found")
+  }
+
+  await prisma.transaction.delete({
+    where: {
+      id: transactionId
+    }
+  })
 }
